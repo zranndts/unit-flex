@@ -1,0 +1,15 @@
+[project]
+name = "unitflex"
+version = "0.1.0"
+description = "A lightweight unit conversion library for length, mass, and more."
+authors = [{name = "Zahraan Dzakii", email = "vleaxorzz@gmail.com"}]
+readme = "README.md"
+requires-python = ">=3.8"
+license = {text = "MIT"}
+
+[project.urls]
+"Homepage" = "https://github.com/username/unitflex"
+
+[build-system]
+requires = ["setuptools", "wheel"]
+build-backend = "setuptools.build_meta"
