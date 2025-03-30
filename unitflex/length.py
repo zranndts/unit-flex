@@ -11,7 +11,7 @@ class LengthConverter:
     }
 
     @classmethod
-    def convert(cls, value, fromUnit, toUnit, precision=2, output="raw"):
+    def convert(cls, value, fromUnit, toUnit, precision=2, output="compact"):
         fromUnit = fromUnit.lower()
         toUnit = toUnit.lower()
 
