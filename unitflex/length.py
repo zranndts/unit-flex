@@ -1,4 +1,4 @@
-class LengthConverter:
+class lengthConverter:
     conversionRates = {
         "m": 1,
         "km": 1000,
