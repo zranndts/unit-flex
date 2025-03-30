@@ -4,8 +4,9 @@ class dataConverter:
         "bit": 0.000000125,
         "byte": 0.000001,
         "kb": 0.001,
-        "gigabyte": 1000,
-        "terabyte":1000000,
+        "gb": 1000,
+        "tb": 1000000,
+        "pb": 1000000000,
     }
 
     @classmethod
