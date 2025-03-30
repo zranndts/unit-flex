@@ -13,8 +13,7 @@ class temperatureConverter:
         "f": lambda x: (x * 9 / 5) + 32, "fahrenheit": lambda x: (x * 9 / 5) + 32, "°f": lambda x: (x * 9 / 5) + 32,
         "k": lambda x: x + 273.15, "kelvin": lambda x: x + 273.15, "°k": lambda x: x + 273.15,
         "r": lambda x: (x + 273.15) * 9 / 5, "rankine": lambda x: (x + 273.15) * 9 / 5, "°r": lambda x: (x + 273.15) * 9 / 5,
-        "re": lambda x: x * 4 / 5, "reaumur": lambda x: x * 4 / 5, "réaumur": lambda x: x * 4 / 5, "°re": lambda x: x * 4 / 5, "°ré": lambda x: x * 4 / 5
-
+        "re": lambda x: x * 4 / 5, "reaumur": lambda x: x * 4 / 5, "réaumur": lambda x: x * 4 / 5, "°re": lambda x: x * 4 / 5, "°ré": lambda x: x * 4 / 5 
     }
 
     @classmethod
@@ -49,3 +48,20 @@ class temperatureConverter:
                 return f"{value} °{fromUnit} = {round(convertedValue, int(precision))} °{toUnit}"
             else:
                 return f"{value} {fromUnit} = {round(convertedValue, int(precision))} {toUnit}"
+
+            raise ValueError("precision can't be negative!")
+
+        validationFormatting = {"raw", "compact", "verbose"}
+        if format not in validationFormatting:
+            raise ValueError(f"Output format '{format}' not recognized! Choose from: {', '.join(validationFormatting)}")
+        
+        if format == "raw":
+            result = f"{round(convertedValue, int(precision))}"
+        elif format == "compact":
+            result = f"{round(convertedValue, int(precision))} {toUnit}"
+        elif format == "verbose":
+            result = f"{value} {fromUnit} = {round(convertedValue, int(precision))} {toUnit}"
+        else:
+            raise ValueError("Unexpected format parameters!")
+        
+        return result

@@ -46,7 +46,8 @@ class dataConverter:
     }
 
     @classmethod
-    def convert(cls, value, fromUnit, toUnit, precision=8, format="compact"):
+    def convert(cls, value, fromUnit, toUnit, precision=1, format="compact"):
+
         fromUnit = fromUnit.lower()
         toUnit = toUnit.lower()
 
@@ -59,19 +60,20 @@ class dataConverter:
         convertedValue = defaultValue / cls.conversionRates[toUnit]
 
         if int(precision) < 0:
-            raise ValueError("precision can't be negative!")
+            raise ValueError("precisson can't be negative!")
         
         validationFormatting = {"raw", "compact", "verbose"}
         if format not in validationFormatting:
-            raise ValueError(f"Output format '{format}' not recognized! Choose from: {', '.join(validationFormatting)}")
+            raise (f"Output format '{format}' not recognized! Choose from: {', '.join(validationFormatting)}")
     
         if format == "raw":
             result = f"{round(convertedValue, int(precision))}"
+            return result
         elif format == "compact":
             result = f"{round(convertedValue, int(precision))} {toUnit}"
+            return result
         elif format == "verbose":
             result = f"{value} {fromUnit} = {round(convertedValue, int(precision))} {toUnit}"
+            return result
         else:
             raise ValueError("Unexpected format parameters!")
-
-        return result
