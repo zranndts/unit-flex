@@ -1,16 +1,31 @@
 class massConverter:
     conversionRates = {
-        "kg": 1,
-        "g": 0.001,
-        "mg": 0.000001,
-        "ton": 1000,
-        "lb": 0.453592,
-        "oz": 0.0283495,
-        "st": 6.35029
+        # Metric Units
+        "mg": 1e-6, "milligram": 1e-6, "milligrams": 1e-6,
+        "g": 1e-3, "gram": 1e-3, "grams": 1e-3,
+        "kg": 1, "kilogram": 1, "kilograms": 1,
+        "t": 1_000, "ton": 1_000, "tons": 1_000, "metricton": 1_000,
+        "quintal": 100,
+        "ons": 0.1, "ons-nl": 0.1,
+
+        # Imperial/US Units
+        "oz": 0.028_349_5, "ounce": 0.028_349_5, "ounces": 0.028_349_5,
+        "lb": 0.453_592, "pound": 0.453_592, "pounds": 0.453_592,
+        "st": 6.350_29, "stone": 6.350_29, "stones": 6.350_29,
+        "slug": 14.593_9,
+        "dram": 0.001_771_845_195_312_5, "dr": 0.001_771_845_195_312_5,
+
+        # Smaller/Scientific Units
+        "carat": 0.000_2,
+        "grain": 0.000_064_798_91,
+
+        # Ton variations
+        "shortton": 907.184_74,
+        "longton": 1_016.046_908_8,
     }
 
     @classmethod
-    def convert(cls, value, fromUnit, toUnit, precision=2, output="compact"):
+    def convert(cls, value, fromUnit, toUnit, precision=2, format="compact"):
         fromUnit = fromUnit.lower()
         toUnit = toUnit.lower()
 
@@ -23,16 +38,17 @@ class massConverter:
         convertedValue = defaultValue / cls.conversionRates[toUnit]
 
         if int(precision) < 0:
-            raise ValueError("precisson can't be negative!")
-        
-        if output == "raw":
-            result = f"{round(convertedValue, int(precision))}"
-            return result
-        elif output == "compact":
-            result = f"{round(convertedValue, int(precision))} {toUnit}"
-            return result
-        elif output == "verbose":
-            result = f"{value} {fromUnit} = {round(convertedValue, int(precision))} {toUnit}"
-            return result
+            raise ValueError("Precision can't be negative!")
+
+        validationFormatting = {"raw", "compact", "verbose"}
+        if format not in validationFormatting:
+            raise ValueError(f"Output format '{format}' not recognized! Choose from: {', '.join(validationFormatting)}")
+
+        if format == "raw":
+            return f"{round(convertedValue, int(precision))}"
+        elif format == "compact":
+            return f"{round(convertedValue, int(precision))} {toUnit}"
+        elif format == "verbose":
+            return f"{value} {fromUnit} = {round(convertedValue, int(precision))} {toUnit}"
         else:
-            raise ValueError("Unexpected output parameters!")
+            raise ValueError("Unexpected format parameter!")
