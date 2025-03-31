@@ -21,7 +21,7 @@ class lengthConverter:
     }
 
     @classmethod
-    def convert(cls, value, fromUnit, toUnit, precision=2, format="compact"):
+    def convert(cls, value, fromUnit, toUnit, precision=2, format="tag", delim=False):
         fromUnit = fromUnit.lower()
         toUnit = toUnit.lower()
 
@@ -36,15 +36,31 @@ class lengthConverter:
         if int(precision) < 0:
             raise ValueError("Precision can't be negative!")
 
-        validationFormatting = {"raw", "compact", "verbose"}
-        if format not in validationFormatting:
-            raise ValueError(f"Output format '{format}' not recognized! Choose from: {', '.join(validationFormatting)}")
+        roundedValue = round(convertedValue, int(precision))
+
+        if roundedValue == int(roundedValue):
+            roundedValue = int(roundedValue) 
 
         if format == "raw":
-            return f"{round(convertedValue, int(precision))}"
-        elif format == "compact":
-            return f"{round(convertedValue, int(precision))} {toUnit}"
+            return roundedValue
+
+        if roundedValue == int(roundedValue):
+            if delim:
+                separator = "_" if delim is True else str(delim)
+                formattedValue = f"{int(roundedValue):,}".replace(",", separator)
+            else:
+                formattedValue = str(int(roundedValue))
+        else:
+            if delim:
+                separator = "_" if delim is True else str(delim)
+                formattedValue = f"{roundedValue:,.{precision}f}".replace(",", separator)
+            else:
+                formattedValue = f"{roundedValue:.{precision}f}"
+
+        if format == "tag":
+            return f"{formattedValue} {toUnit}"
         elif format == "verbose":
-            return f"{value} {fromUnit} = {round(convertedValue, int(precision))} {toUnit}"
+            return f"{value} {fromUnit} = {formattedValue} {toUnit}"
         else:
             raise ValueError("Unexpected format parameter!")
+

@@ -17,7 +17,7 @@ class temperatureConverter:
     }
 
     @classmethod
-    def convert(cls, value, fromUnit, toUnit, precision=1, format="compact"):
+    def convert(cls, value, fromUnit, toUnit, precision=1, format="tag", delim=False):
         fromUnit = fromUnit.lower()
         toUnit = toUnit.lower()
 
@@ -31,37 +31,31 @@ class temperatureConverter:
 
         if int(precision) < 0:
             raise ValueError("Precision can't be negative!")
-
-        formats = {"raw", "compact", "verbose"}
-        if format not in formats:
-            raise ValueError(f"Output format '{format}' not recognized! Choose from: {', '.join(formats)}")
-
-        if format == "raw":
-                return f"{round(convertedValue, int(precision))}"
-        elif format == "compact":
-            if toUnit in ["c", "f", "k", "r", "re"]:
-                return f"{round(convertedValue, int(precision))} °{toUnit}"
-            else:
-                return f"{round(convertedValue, int(precision))} {toUnit}"
-        elif format == "verbose":
-            if toUnit in ["c", "f", "k", "r", "re"]:
-                return f"{value} °{fromUnit} = {round(convertedValue, int(precision))} °{toUnit}"
-            else:
-                return f"{value} {fromUnit} = {round(convertedValue, int(precision))} {toUnit}"
-
-            raise ValueError("precision can't be negative!")
-
-        validationFormatting = {"raw", "compact", "verbose"}
-        if format not in validationFormatting:
-            raise ValueError(f"Output format '{format}' not recognized! Choose from: {', '.join(validationFormatting)}")
         
-        if format == "raw":
-            result = f"{round(convertedValue, int(precision))}"
-        elif format == "compact":
-            result = f"{round(convertedValue, int(precision))} {toUnit}"
-        elif format == "verbose":
-            result = f"{value} {fromUnit} = {round(convertedValue, int(precision))} {toUnit}"
+        roundedValue = round(convertedValue, int(precision))
+
+        if roundedValue == int(roundedValue):
+            if delim:
+                separator = "_" if delim is True else str(delim)
+                formattedValue = f"{int(roundedValue):,}".replace(",", separator)
+            else:
+                formattedValue = str(int(roundedValue))
         else:
-            raise ValueError("Unexpected format parameters!")
-        
-        return result
+            if delim:
+                separator = "_" if delim is True else str(delim)
+                formattedValue = f"{roundedValue:,.{precision}f}".replace(",", separator)
+            else:
+                formattedValue = f"{roundedValue:.{precision}f}"
+    
+        if format == "raw":
+                return formattedValue
+        elif format == "tag":
+            if toUnit in ["c", "f", "k", "r", "re"]:
+                return f"{formattedValue} °{toUnit}"
+            else:
+                return f"{formattedValue} {toUnit}"
+        elif format == "verbose":
+            if toUnit in ["c", "f", "k", "r", "re"]:
+                return f"{value} °{fromUnit} = {formattedValue} °{toUnit}"
+            else:
+                return f"{value} {fromUnit} = {formattedValue} {toUnit}"
