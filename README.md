@@ -78,7 +78,8 @@ False → no separator
 
 # Another Information 🔍
 
-This module is not yet available on PyPI, Unitflex can be cloned directly from this repository for immediate use. Once installed, users can import and use the `length`, `mass`, `temper` and `data` classes from the `unitflex` package. Each class provides a `convert()` method that accepts the value to be converted, the source unit, the target unit, the number of decimal digits, and the preferred output style.
+This module is now available on PyPI. You can install it directly using `pip install unitflex`
+Once installed, you can import and use the length, mass, temper, and data classes from the unitflex package. Each class provides a convert() method that accepts the value to be converted, the source unit, the target unit, the number of decimal digits, and the preferred output style.
 
 The folder structure of this project is organized for clarity and scalability. The main package, `unitflex`, contains individual modules for each category of conversion (such as `length.py`, `mass.py`, `data.py` and `temperature.py`). In addition, there are directories for usage examples and test scripts, which help demonstrate the library's capabilities and ensure consistent performance through future updates.
 
