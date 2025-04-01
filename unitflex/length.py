@@ -37,7 +37,6 @@ class lengthConverter:
             raise ValueError("Precision can't be negative!")
 
         roundedValue = round(convertedValue, int(precision))
-
         if roundedValue == int(roundedValue):
             roundedValue = int(roundedValue) 
 

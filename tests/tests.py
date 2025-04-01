@@ -2,10 +2,7 @@ import sys
 import os
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-from unitflex import length
-from unitflex import mass
-from unitflex import temper
-from unitflex import data
+from unitflex import length, mass, temper, data
 
 print("\n------ Length\n")
 
@@ -54,7 +51,11 @@ print("\n------ Mass\n")
 print(mass.convert(120, fromUnit="kg", toUnit="lb", precision="2", format="verbose"))
 print(mass.convert(1, fromUnit="ton", toUnit="mg", precision="2", format="verbose", delim=","))
 print(mass.convert(275, fromUnit="lb", toUnit="kg", precision="3", format="tag"))
-print(mass.convert(150650, fromUnit="mg", toUnit="lb", precision="1", format="raw"))
+print(mass.convert(150650, fromUnit="g", toUnit="lb", precision="4", format="raw"))
+lb1 = mass.convert(15065, fromUnit="g", toUnit="lb", precision="4", format="raw")
+print(mass.convert(12321, fromUnit="g", toUnit="lb", precision="4", format="raw"))
+lb2 = mass.convert(12321, fromUnit="g", toUnit="lb", precision="4", format="raw")
+print(lb1 - lb2)
 print(mass.convert(12123, "g", "kg", "2", "tag"))
 print(mass.convert(24, "carat", "g"))
 
@@ -69,6 +70,10 @@ print(temper.convert(128, fromUnit="Kelvin", toUnit="celcius", precision="2", fo
 print(temper.convert(128, fromUnit="°r", toUnit="°c", precision="2", format="verbose"))
 print(temper.convert(38, fromUnit="c", toUnit="re", precision="2", format="verbose"))
 print(temper.convert(38, fromUnit="r", toUnit="re", precision="2", format="raw"))
+re = temper.convert(38, "r", "re", "2", "raw")
+print(temper.convert(380, "c", "re", "2", "raw"))
+re2 = temper.convert(380, "c", "re", "2", "raw")
+print(re + re2)
 print(temper.convert(38, fromUnit="r", toUnit="f", precision="2", format="verbose"))
 print(temper.convert(666, "celcius", "fahrenheit", "2", "verbose", ","))
 print(temper.convert(36, "c", "k", "2"))
@@ -77,8 +82,12 @@ print("\n------ Data\n")
 
 # Data Test 
 print(data.convert(1, fromUnit="pb", toUnit="gb", format="verbose", delim=","))
-print(data.convert(10, fromUnit="byte", toUnit="bit", format="tag"))
+print(data.convert(10, fromUnit="bytes", toUnit="bit", format="tag"))
 print(data.convert(1, fromUnit="gbyte", toUnit="bit", format="tag", delim=","))
 print(data.convert(80, fromUnit="mbps", toUnit="mbyte", format="verbose"))
 print(data.convert(150, fromUnit="mbps", toUnit="gbps", format="raw"))
+gb1 = data.convert(150, fromUnit="mbps", toUnit="gbps", format="raw")
+print(data.convert(150, fromUnit="mbps", toUnit="gbps", format="raw"))
+gb2 = data.convert(150, fromUnit="mbps", toUnit="gbps", format="raw")
+print(gb1 + gb2)
 print(data.convert(1, "gbps", "mbps", "2", "tag", ","))

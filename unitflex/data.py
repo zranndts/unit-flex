@@ -2,50 +2,52 @@ class dataConverter:
     conversionRates = {
         # Bit
         "bit": 1 / 8_000_000,
+        "bits": 1 / 8_000_000,
         "b": 1 / 8_000_000,
         
         # Byte
         "byte": 1 / 1_000_000,
+        "bytes": 1 / 1_000_000,
         "bps": 1 / 1_000_000,
 
         # Kilobit
         "kbit": 1 / 8_000,
-        "kilobit": 1 / 8_000,
+        "kilobit": 1 / 8_000, "kilobits": 1 / 8_000,
         "kbps": 1 / 8_000,
 
         # Kilobyte
         "kbyte": 0.001,
-        "kilobyte": 0.001,
+        "kilobyte": 0.001, "kilobytes": 0.001,
         "kb": 0.001,
 
         # Megabit
         "mbit": 0.125,
-        "megabit": 0.125,
+        "megabit": 0.125, "megabits":0.125,
         "mbps": 0.125,
 
         # Megabyte (base unit)
         "mb": 1,
-        "megabyte": 1,
+        "megabyte": 1, "megabytes": 1,
         "mbyte": 1,
 
         # Gigabit
         "gbit": 125,
-        "gbit": 125,
+        "gbit": 125, "gbits": 125,
         "gbps": 125,
 
         # Gigabyte
         "gb": 1_000,
-        "gigabyte": 1_000,
+        "gigabyte": 1_000, "gigabytes": 1_000,
         "gbyte": 1_000,
 
         # Terabyte
         "tb": 1_000_000,
-        "terabyte": 1_000_000,
+        "terabyte": 1_000_000, "terabytes": 1_000_000,
         "tbyte": 1_000_000,
 
         # Petabyte
         "pb": 1_000_000_000,
-        "petabyte": 1_000_000_000,
+        "petabyte": 1_000_000_000, "petabytes": 1_000_000_000,
         "pbyte": 1_000_000_000,
     }
 
@@ -66,7 +68,11 @@ class dataConverter:
             raise ValueError("Precision can't be negative!")
 
         roundedValue = round(convertedValue, int(precision))
+        if roundedValue == int(roundedValue):
+            roundedValue = int(roundedValue) 
 
+        if format == "raw":
+            return roundedValue
         if roundedValue == int(roundedValue):
             if delim:
                 separator = "_" if delim is True else str(delim)
@@ -80,9 +86,7 @@ class dataConverter:
             else:
                 formattedValue = f"{roundedValue:.{precision}f}"
 
-        if format == "raw":
-            return formattedValue
-        elif format == "tag":
+        if format == "tag":
             return f"{formattedValue} {toUnit}"
         elif format == "verbose":
             return f"{value} {fromUnit} = {formattedValue} {toUnit}"

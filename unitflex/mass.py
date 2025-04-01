@@ -41,6 +41,11 @@ class massConverter:
             raise ValueError("Precision can't be negative!")
 
         roundedValue = round(convertedValue, int(precision))
+        if roundedValue == int(roundedValue):
+            roundedValue = int(roundedValue) 
+
+        if format == "raw":
+            return roundedValue
 
         if roundedValue == int(roundedValue):
             if delim:
@@ -55,9 +60,7 @@ class massConverter:
             else:
                 formattedValue = f"{roundedValue:.{precision}f}"
 
-        if format == "raw":
-            return formattedValue
-        elif format == "tag":
+        if format == "tag":
             return f"{formattedValue} {toUnit}"
         elif format == "verbose":
             return f"{value} {fromUnit} = {formattedValue} {toUnit}"
