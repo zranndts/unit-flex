@@ -4,24 +4,23 @@ Unitflex is a Python library for converting values between various measurement u
 
 # Supported Converters 🧪 
 
-Length (unitflex.length)
-Supports: `mm`, `cm`, `m`, `km`, `in`, `ft`, `yard`, `mil` or `thou`, `mile`, `nm`, `um`, `pm`, `dm`, `angstrom` and `nmi`
+1. Length (unitflex.length)
+- Supports: `mm`, `cm`, `m`, `km`, `in`, `ft`, `yard`, `mil` or `thou`, `mile`, `nm`, `um`, `pm`, `dm`, `angstrom` and `nmi`
 
-Mass (unitflex.mass)
-Supports: `mg`, `g`, `kg`, `lb`, `ton`, `quintal`, `ons`, `oz`, `st`, `slug`, `dram`, `carat`, `grain`, `shortton` and `longton`.
+2. Mass (unitflex.mass)
+- Supports: `mg`, `g`, `kg`, `lb`, `ton`, `quintal`, `ons`, `oz`, `st`, `slug`, `dram`, `carat`, `grain`, `shortton` and `longton`.
 
-Temperature (unitflex.temper)
-Supports: `celsius`, `fahrenheit`, `kelvin`, `rankine` and `reaumur`.
-Short names: `c`, `f`, `k`, `r`, `re`.
-Symbols supported: `°c`, `°f`, `k`, `°r` and `°re`.
+3. Temperature (unitflex.temper)
+- Supports: `celsius`, `fahrenheit`, `kelvin`, `rankine` and `reaumur`.
+- Short names: `c`, `f`, `k`, `r`, `re`.
+- Symbols supported: `°c`, `°f`, `k`, `°r` and `°re`.
 
-Data (unitflex.data)
-Supports: `bit`, `byte`, `kilobit`, `kilobyte`, `megabit`, `megabyte`, `gigabit`, `gigabyte`, `terabyte`, `petabyte`.
+4. Data (unitflex.data)
+- Supports: `bit`, `byte`, `kilobit`, `kilobyte`, `megabit`, `megabyte`, `gigabit`, `gigabyte`, `terabyte`, `petabyte`. 
+- When converting data units, this library differentiates between bits `b` and bytes `B`. `Since 1 byte = 8 bits`, incorrect capitalization can lead to incorrect conversions.
+- Bit-based units: `b`, `Kbps`, `Mbps`, `Gbps`, etc. (lowercase `b` represents bits)
+- Byte-based units: `B`, `KB`, `MBps`, `GBps`, etc. (uppercase `B` represents bytes)
 
-When converting data units, this library differentiates between bits `b` and bytes `B`. `Since 1 byte = 8 bits`, incorrect capitalization can lead to incorrect conversions.
-
-Bit-based units: `b`, `Kbps`, `Mbps`, `Gbps`, etc. (lowercase `b` represents bits)
-Byte-based units: `B`, `KB`, `MBps`, `GBps`, etc. (uppercase `B` represents bytes)
 
 You can specify units using either their abbreviations or full names. The system will automatically recognize and adjust accordingly.
 
@@ -33,39 +32,44 @@ You can specify units using either their abbreviations or full names. The system
 Each convert() function accepts up to six parameters. The first three are required, the rest are optional for customizing the output.
 
 1. value (required)
+
 The numeric value to convert. Can be an int or float.
-Example: `100, 3.14`
+- Example: `100, 3.14`
 
 2. fromUnit (required)
+
 A string representing the source unit. Case-insensitive. Supports short and long forms. Exception for data units as it must differentiate `b` bits and `B` bytes.
-Example: `cm`, `meter`, `Kb`, `KB`, `°f`
+- Example: `cm`, `meter`, `Kb`, `KB`, `°f`
 
 3. toUnit (required)
+
 A string representing the target unit. Same rules as fromUnit.
-Example: `km`, `yard`, `megabit`, `reamur`.
+- Example: `km`, `yard`, `megabit`, `reamur`.
 
 4. precision (optional, `default = 2`)
+
 Number of decimal places to round the result.
-Must be a non-negative integer.
-Use 0 for whole number output.
-Example: `precision=3 → 12.345`
+- Must be a non-negative integer.
+- Use 0 for whole number output.
+- Example: `precision=3 → 12.345`
 
 5. format (optional, default = `tag`)
+
 Controls how the result is formatted:
-`"raw"` → returns only the number as a int/float: `123.45`
+- `"raw"` → returns only the number as a int/float: `123.45`
 raw format is used if the conversion result will be subjected to math operations.
-`"tag"` → returns number with unit: "123.45 cm"
-`"verbose"` → full expression: "5 meter = 500 cm"
+- `"tag"` → returns number with unit: "123.45 cm"
+- `"verbose"` → full expression: "5 meter = 500 cm"
 
 6. delim (optional)
+
 Adds a thousands separator to large numbers for readability:
-`True` → underscore separator: 1_000_000 (default separator)
+- `True` → underscore separator: 1_000_000 (default separator)
 default separator is good to use with raw format, because it is intended to produce int/float conversion results that can be used for further calculations.
 Or you can use a custom separator by replacing the delimiter parameter value with whatever string you want to be the separator, for example:
-`","` → comma separator: 1,000,000
-`"."` → dot separator: 1.000.000
-
-`False` → no separator
+- `","` → comma separator: 1,000,000
+- `"."` → dot separator: 1.000.000
+- `False` → no separator
 
 # Notes 📌
 
@@ -81,6 +85,6 @@ Once installed, you can import and use the length, mass, temper, and data classe
 
 The folder structure of this project is organized for clarity and scalability. The main package, `unitflex`, contains individual modules for each category of conversion (such as `length.py`, `mass.py`, `data.py` and `temperature.py`). In addition, there are directories for usage examples and test scripts, which help demonstrate the library's capabilities and ensure consistent performance through future updates.
 
-Upcoming features planned for unitflex include conversion of area, volume, time or even conversion with scientific units such as electric current, thermodynamic, amont of substance, luminous intensity, hz etc. While external contributions are currently limited as the library is in its early development stage, feedback and suggestions are more than welcome and encouraged.
+Upcoming features planned for unitflex include conversion of area, volume, time or even conversion with scientific units such as electric current, thermodynamic, amont of substance, luminous intensity, frequency, and more. While external contributions are currently limited as the library is in its early development stage, feedback and suggestions are more than welcome and encouraged.
 
 Unitflex is released under the MIT License, which allows you to freely use, modify, and distribute the library as long as the original license is included. For more information about usage, structure, and licensing, please refer to the LICENSE file included in this repository.
