@@ -41,13 +41,13 @@ class temperatureConverter:
 
         if roundedValue == int(roundedValue):
             if delim:
-                separator = "_" if delim is True else str(delim)
+                separator = "_" if delim is True or str(delim).lower().strip() == "default" else str(delim)
                 formattedValue = f"{int(roundedValue):,}".replace(",", separator)
             else:
                 formattedValue = str(int(roundedValue))
         else:
             if delim:
-                separator = "_" if delim is True else str(delim)
+                separator = "_" if delim is True or str(delim).lower().strip() == "default" else str(delim)
                 formattedValue = f"{roundedValue:,.{precision}f}".replace(",", separator)
             else:
                 formattedValue = f"{roundedValue:.{precision}f}"

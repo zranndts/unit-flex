@@ -9,11 +9,11 @@ from unitflex import temper
 from unitflex import data
 
 print("Mass conversion with all output adjustment parameters; precision, format and delim.")
-print(mass.convert(24, "ton", "kg", "2", "verbose", True))
+print(mass.convert(24, "ton", "kg", "2", "verbose", True)) # delim as True to set default separators
 print(mass.convert(24, "ton", "g", "2", "tag", ","))
 
 print("\nLength conversion with all output adjustment parameters; precision, format and delim.")
-print(length.convert(10, "mi", "cm", "2", "verbose", True))
+print(length.convert(10, "mi", "cm", "2", "verbose", "default")) # delim as "default" to set default separators
 print(length.convert(10, "mi", "cm", "2", "tag", ","))
 
 print("\nTemper (temperature) conversion with all output adjustment parameters; precision, format and delim.")
@@ -21,7 +21,7 @@ print(temper.convert(1000, "c", "k", "2", "tag", True))
 print(temper.convert(1000, "c", "k", "2", "verbose", ","))
 
 print("\nData conversion with all output adjustment parameters; precision, format and delim.")
-print(data.convert(1, "gigabit", "bit", "2", "verbose", True))
+print(data.convert(1, "gigabit", "bit", "2", "verbose", "default"))
 print(data.convert(48, "gigabyte", "kbps", "2", "tag", ","))
 
 print("------")
@@ -29,9 +29,9 @@ print("------")
 # Use precision, adjust format and delim (delimiter)
 print("\nUse precision, adjust format and delim (delimiter)")
 print(length.convert(12, "miles", "cm", "2", "verbose", True))
-print(mass.convert(12, "ton", "g", "2", "verbose", True))
+print(mass.convert(12, "ton", "g", "2", "verbose", "default"))
 print(data.convert(1, "petabyte", "megabyte", "2", "tag", ","))
-print(data.convert(1, "gigabyte", "bit", "3", "tag", "."))
+print(data.convert(1, "gigabyte", "bit", "3", "tag", "default"))
 print(temper.convert(500, "c", "k", "2", "tag", "."))
 print(length.convert(10, "miles", "cm", "2", "raw", "."))
 

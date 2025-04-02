@@ -12,3 +12,4 @@ print(length.convert(5, "km", "m"))
 # Convert 12 inches to centimeters with precision 1, verbose (detail output) delim (delimiter) ',' as separator 
 print(length.convert(49, "km", "cm", "1", "verbose", ","))
 print(length.convert(1, "cm", "nm", "2", "tag", ","))
+print(length.convert(1, "cm", "nm", "2", "tag", "default"))

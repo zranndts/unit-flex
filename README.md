@@ -28,7 +28,7 @@ Each convert() function accepts up to six parameters. The first three are requir
 
 5. format (optional, default = `tag`)<br>Controls how the result is formatted:<br>`"raw"` → returns only the number as an int/float: `123.45`. <br>Raw format is used if the conversion result will be subjected to math operations.<br>`"tag"` → returns number with unit: "123.45 cm".<br>`"verbose"` → full expression: "5 meter = 500 cm"
 
-6. delim (optional)<br>Adds a thousands separator to large numbers for readability:<br>`True` → underscore separator: 1_000_000 (default separator). Default separator is good to use with raw format, because it is intended to produce int/float conversion results that can be used for further calculations.<br>Or you can use a custom separator by replacing the delimiter parameter value with whatever string you want to be the separator, for example:<br>`","` → comma separator: 1,000,000<br>`"."` → dot separator: 1.000.000<br>`False` → no separator.
+6. delim (optional)<br>Adds a thousands separator to large numbers for readability:<br>`True` or `"default"` → underscore separator: 1_000_000 (default separator). Default separator is good to use with raw format, because it is intended to produce int/float conversion results that can be used for further calculations.<br>Or you can use a custom separator by replacing the delimiter parameter value with whatever string you want to be the separator, for example:<br>`","` → comma separator: 1,000,000<br>`"."` → dot separator: 1.000.000<br>`False` → no separator.
 
 # Notes 📌
 - Units are case-insensitive. (exception for data unit)

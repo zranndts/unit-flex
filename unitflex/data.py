@@ -1,5 +1,5 @@
-class DataConverter:
-    conversion_rates = {
+class dataConverter:
+    conversionRates = {
         # Bit
         "bit": 1 / 8_000_000, "Bit": 1 / 8_000_000, "bits": 1 / 8_000_000, "Bits": 1 / 8_000_000,
         "b": 1 / 8_000_000, "Bps": 1 / 8_000_000, "bps": 1 / 8_000_000,
@@ -70,13 +70,13 @@ class DataConverter:
             return roundedValue
         if roundedValue == int(roundedValue):
             if delim:
-                separator = "_" if delim is True else str(delim)
+                separator = "_" if delim is True or str(delim).lower().strip() == "default" else str(delim)
                 formattedValue = f"{int(roundedValue):,}".replace(",", separator)
             else:
                 formattedValue = str(int(roundedValue))
         else:
             if delim:
-                separator = "_" if delim is True else str(delim)
+                separator = "_" if delim is True or str(delim).lower().strip() == "default" else str(delim)
                 formattedValue = f"{roundedValue:,.{precision}f}".replace(",", separator)
             else:
                 formattedValue = f"{roundedValue:.{precision}f}"
