@@ -10,6 +10,14 @@ Unitflex is a Python library for converting values between various measurement u
 
 4. Data (unitflex.data)<br>Supports: `bit`, `byte`, `kilobit`, `kilobyte`, `megabit`, `megabyte`, `gigabit`, `gigabyte`, `terabyte`, `petabyte`.<br>When converting data units, this library differentiates between bits `b` and bytes `B`. Since 1 byte = 8 bits, incorrect capitalization can lead to incorrect conversions.<br>Bit-based units: `b`, `Kbps`, `Mbps`, `Gbps`, etc. (lowercase `b` represents bits)<br>Byte-based units: `B`, `KB`, `MBps`, `GBps`, etc. (uppercase `B` represents bytes)
 
+5. Volume (unitflex.vol)<br>Supports: `ml`, `cl`, `dl`, `l`, `hl`, `m3`, `tsp`, `tbsp`, `fl oz`, `cup`, `pt`, `qt`, `gal`, `in3`, `ft3`, `yd3` and their full forms like `milliliter`, `cubic meter`, `fluid ounce`, etc. Both metric and imperial units are supported.
+
+6. Pressure (unitflex.press)<br>Supports: `pa`, `kpa`, `mpa`, `bar`, `mbar`, `psi`, `atm`, `mmhg`, `torr`, `inhg`, `hpa`, and `dyne/cm²`. Full names and alternate spellings are recognized, such as `millibar`, `hectopascal`, `millimeter of mercury`, and more.
+
+7. Speed (unitflex.speed)<br>Supports: `m/s`, `km/h`, `km/s`, `mph`, `knot`, `ft/s`, `ft/min`, `in/s`, `in/min`, `cm/s`, `mm/s`, `and mach (assumed at sea level)`. Accepts multiple variants in casing and formatting.
+
+8. Time (unitflex.time)<br>Supports: `ns`, `μs`, `us`, `ms`, `s`, `min`, `h`, `d`, `wk`, `mo`, `yr`, `decade`, `century`, `millennium`, as well as localized time terms like `triwulan`, `semester`, `millennium"`, `generation`, , and more. All units are based on precise average durations (e.g., month = 30.44 days, year1 = 365.25 days).
+
 You can specify units using either their abbreviations or full names. The system will automatically recognize and adjust accordingly.
 
 <-- There will be many useful converters to come, stay tuned! -->
@@ -31,7 +39,7 @@ Each convert() function accepts up to six parameters. The first three are requir
 6. delim (optional)<br>Adds a thousands separator to large numbers for readability:<br>`True` or `"default"` → underscore separator: 1_000_000 (default separator). Default separator is good to use with raw format, because it is intended to produce int/float conversion results that can be used for further calculations.<br>Or you can use a custom separator by replacing the delimiter parameter value with whatever string you want to be the separator, for example:<br>`","` → comma separator: 1,000,000<br>`"."` → dot separator: 1.000.000<br>`False` → no separator.
 
 # Notes 📌
-- Units are case-insensitive. (exception for data unit)
+- Units are case-insensitive. (exception for data and speed unit)
 - Flexible naming (e.g., "kg", "kilogram", "Kilograms" all work).
 - Safe rounding with fallback if result is an integer.
 - Delimiters help with large numbers.
