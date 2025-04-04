@@ -2,8 +2,8 @@ from setuptools import setup, find_packages
 
 setup(
     name="unitflex",
-    version="0.1.0",  
-    author="Zahraan",
+    version="0.5.0",  
+    author="zranndts",
     author_email="vleaxorzz@gmail.com",
     description="Unit Converter Library",
     long_description=open("README.md", "r", encoding="utf-8").read(),
