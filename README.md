@@ -47,6 +47,7 @@ Based on accurate average durations (e.g., 1 month = 30.44 days)
 
 <-- There will be many useful converters to come, stay tuned! -->
 <!-- There will be many useful converters to come, stay tuned! -->
+---
 
 # Parameters Explained 🔧
 Each convert() function accepts up to six parameters. The first three are required, the rest are optional for customizing the output.
@@ -65,6 +66,8 @@ Each convert() function accepts up to six parameters. The first three are requir
 
 - mode (optional, default = "standard")<br> • "standard" → default mode<br> • "engineering" → high-precision mode using decimal.Decimal
 
+---
+
 # Notes 📌
 - Units are case-insensitive. (Exception: data and speed units where b ≠ B, and formatting like m/s matters.)
 - Flexible unit names. For example: "kg", "kilogram", "Kilograms" are all valid and automatically recognized.
@@ -82,16 +85,20 @@ If you need to perform mathematical operations with the result, consider casting
 ```python
 float_result = float(result)
 ```
+---
 
 # Another Information 🔍
-This library is now available on PyPI. You can install it directly using `pip install unitflex`. Once installed, you can import and use the length, mass, temper, and data classes from the unitflex package. Each class provides a convert() method that accepts the value to be converted, the source unit, the target unit, the number of decimal digits, and the preferred output style.
+This library is now available on PyPI. You can install it directly using `pip install unitflex`. Once installed, you can import and use the unit classes from the unitflex package. Each class provides a convert() method that accepts the value to be converted, the source unit, the target unit, the number of decimal digits, and the preferred output style.
 
 After the installation with `pip install unitflex`, you can import and use this library by:<br>
 ```python
 from unitflex import length, speed, time
-a = speed.convert(12, "mach", "km/h") # Convert 12 mach to km/h
-b = time.convert(18, "year", "second", delim="default", prec=2, format="tag") # Convert 18 years to seconds using delim, prec and format paramaters
-c = length.convert(12.0504, "nm", "cm", format="raw", prec=12, mode="engineering") # Converting 12.0504 nanometers to centimeters using `engineering mode` to obtain a highly accurate result — ideal for outputs with many decimal places.
+ # Convert 12 mach to km/h
+a = speed.convert(12, "mach", "km/h")
+# Convert 18 years to seconds using delim, prec and format paramaters
+b = time.convert(18, "year", "second", delim="default", prec=2, format="tag")
+ # Converting 12.0504 nanometers to centimeters using `engineering mode` to obtain a highly accurate result — ideal for outputs with many decimal places. 
+c = length.convert(12.0504, "nm", "cm", format="raw", prec=12, mode="engineering")
 ```
 
 The folder structure of this project is organized for clarity and scalability. The main package, `unitflex`, contains individual modules for each category of conversion (such as `length.py`, `mass.py`, `data.py` and `temperature.py`). In addition, there are directories for usage examples and test scripts, which help demonstrate the library's capabilities and ensure consistent performance through future updates.
