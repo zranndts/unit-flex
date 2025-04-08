@@ -1,24 +1,49 @@
 # What is Unitflex? 📦
-Unitflex is a Python library for converting values between various measurement units such as length, mass, temperature, and data. It provides a clean and extensible interface to convert units with ease and even lets you customize the formatting of the result.
+
+**Unitflex** is a Python library for converting values between various measurement units such as **length**, **mass**, **temperature**, **data**, and more.  
+It provides a **clean, extensible**, and **user-friendly** interface to perform conversions easily — with customizable output formatting and **high precision modes** for professional use.
+
+Designed to be both **beginner-friendly** and **robust enough for engineers**, Unitflex is suitable for daily tasks, education, and advanced scientific projects.  
+It even supports a special `"engineering"` mode for precise calculations using `decimal.Decimal`.
+
+---
 
 # Supported Converters 🧪 
-1. Length (unitflex.length)<br>Supports: `mm`, `cm`, `m`, `km`, `in`, `ft`, `yard`, `mil` or `thou`, `mile`, `nm`, `um`, `pm`, `dm`, `angstrom` and `nmi`
+**1. Length (unitflex.length)**<br>
+Units: mm, cm, m, km, in, ft, yard, mil, mile, nm, um, pm, dm, angstrom, nmi
 
-2. Mass (unitflex.mass)<br>Supports: `mg`, `g`, `kg`, `lb`, `ton`, `quintal`, `ons`, `oz`, `st`, `slug`, `dram`, `carat`, `grain`, `shortton` and `longton`.
+**2. Mass (unitflex.mass)**<br>
+Units: mg, g, kg, lb, ton, quintal, ounce, oz, st, slug, dram, carat, grain, shortton, longton
 
-3. Temperature (unitflex.temper)<br>Supports: `celsius`, `fahrenheit`, `kelvin`, `rankine` and `reaumur`. Short names: `c`, `f`, `k`, `r`, `re`. Symbols supported: `°c`, `°f`, `k`, `°r` and `°re`.
+**3. Temperature (unitflex.temper)**<br>
+Units: celsius, fahrenheit, kelvin, rankine, reaumur<br>
+Short names: c, f, k, r, re<br>
+Symbols: °c, °f, k, °r, °re
 
-4. Data (unitflex.data)<br>Supports: `bit`, `byte`, `kilobit`, `kilobyte`, `megabit`, `megabyte`, `gigabit`, `gigabyte`, `terabyte`, `petabyte`.<br>When converting data units, this library differentiates between bits `b` and bytes `B`. Since 1 byte = 8 bits, incorrect capitalization can lead to incorrect conversions.<br>Bit-based units: `b`, `Kbps`, `Mbps`, `Gbps`, etc. (lowercase `b` represents bits)<br>Byte-based units: `B`, `KB`, `MBps`, `GBps`, etc. (uppercase `B` represents bytes)
+**4. Data (unitflex.data)**<br>
+Units: bit, byte, kilobit, kilobyte, megabit, megabyte, gigabit, gigabyte, terabyte, petabyte<br>
+Bit: b, Kbps, Mbps (lowercase = bits)<br>
+Byte: B, KB, MBps (uppercase = bytes)
 
-5. Volume (unitflex.vol)<br>Supports: `ml`, `cl`, `dl`, `l`, `hl`, `m3`, `tsp`, `tbsp`, `fl oz`, `cup`, `pt`, `qt`, `gal`, `in3`, `ft3`, `yd3` and their full forms like `milliliter`, `cubic meter`, `fluid ounce`, etc. Both metric and imperial units are supported.
+**5. Volume (unitflex.vol)**<br>
+Units: ml, cl, dl, l, hl, m3, tsp, tbsp, fl oz, cup, pt, qt, gal, in3, ft3, yd3<br>
+Supports both metric and imperial units (short and full names)
 
-6. Pressure (unitflex.press)<br>Supports: `pa`, `kpa`, `mpa`, `bar`, `mbar`, `psi`, `atm`, `mmhg`, `torr`, `inhg`, `hpa`, and `dyne/cm²`. Full names and alternate spellings are recognized, such as `millibar`, `hectopascal`, `millimeter of mercury`, and more.
+**6. Pressure (unitflex.press)**<br>
+Units: pa, kpa, mpa, bar, mbar, psi, atm, mmhg, torr, inhg, hpa, dyne/cm²<br>
+Handles variations like “millibar”, “hectopascal”, etc.
 
-7. Speed (unitflex.speed)<br>Supports: `m/s`, `km/h`, `km/s`, `mph`, `knot`, `ft/s`, `ft/min`, `in/s`, `in/min`, `cm/s`, `mm/s`, `and mach (assumed at sea level)`. Accepts multiple variants in casing and formatting.
+**7. Speed (unitflex.speed)**<br>
+Units: m/s, km/h, km/s, mph, knot, ft/s, ft/min, in/s, in/min, cm/s, mm/s, mach<br>
+Flexible recognition of various spellings and capitalizations
 
-8. Time (unitflex.time)<br>Supports: `ns`, `μs`, `us`, `ms`, `s`, `min`, `h`, `d`, `wk`, `mo`, `yr`, `decade`, `century`, `millennium`, as well as localized time terms like `triwulan`, `semester`, `millennium"`, `generation`, , and more. All units are based on precise average durations (e.g., month = 30.44 days, year1 = 365.25 days).
+**8. Time (unitflex.time)**<br>
+Units: ns, μs, us, ms, s, min, h, d, wk, mo, yr, decade, century, millennium<br>
+Includes local terms like “quarter”, “semester”, “generation” and more<br>
+Based on accurate average durations (e.g., 1 month = 30.44 days)
 
-You can specify units using either their abbreviations or full names. The system will automatically recognize and adjust accordingly.
+> All units support both short and long forms.  
+> The system automatically recognizes and converts them.
 
 <-- There will be many useful converters to come, stay tuned! -->
 <!-- There will be many useful converters to come, stay tuned! -->
@@ -26,26 +51,48 @@ You can specify units using either their abbreviations or full names. The system
 # Parameters Explained 🔧
 Each convert() function accepts up to six parameters. The first three are required, the rest are optional for customizing the output.
 
-1. value (required)<br>The numeric value to convert. Can be an int or float.<br>Example: `100, 3.14`
+- value (required)<br> The numeric value to convert (int or float)<br> Example: 100, 3.14
 
-2. fromUnit (required)<br>A string representing the source unit, case-insensitive, supports short and long forms. Exception for data units as it must differentiate `b` bits and `B` bytes.<br>Example: `cm`, `meter`, `Kb`, `KB`, `°f`
+- fromUnit (required)<br> The original unit (short, long name, or symbol)<br> Example: cm, meter, °f
 
-3. toUnit (required)<br>A string representing the target unit. Same rules as fromUnit.<br>Example: `km`, `yard`, `megabit`, `reamur`.
+- toUnit (required)<br> The target unit (same format options as fromUnit)<br> Example: km, yard, kelvin
 
-4. precision (optional, `default = 2`)<br>Number of decimal places to round the result.<br>Must be a non-negative integer.<br>Use 0 for whole number output.<br>Example: `precision=3 → 12.345`
+- precision (optional, default = 2)<br> Number of decimal digits in the result<br> Example: precision=3 → 12.345
 
-5. format (optional, default = `tag`)<br>Controls how the result is formatted:<br>`"raw"` → returns only the number as an int/float: `123.45`. <br>Raw format is used if the conversion result will be subjected to math operations.<br>`"tag"` → returns number with unit: "123.45 cm".<br>`"verbose"` → full expression: "5 meter = 500 cm"
+- format (optional, default = "tag")<br> Output style:<br> • "raw" → numeric only (ideal for calculations)<br> • "tag" → number + unit<br> • "verbose" → detailed explanation (e.g. "1 meter = 100 cm")
 
-6. delim (optional)<br>Adds a thousands separator to large numbers for readability:<br>`True` or `"default"` → underscore separator: 1_000_000 (default separator). Default separator is good to use with raw format, because it is intended to produce int/float conversion results that can be used for further calculations.<br>Or you can use a custom separator by replacing the delimiter parameter value with whatever string you want to be the separator, for example:<br>`","` → comma separator: 1,000,000<br>`"."` → dot separator: 1.000.000<br>`False` → no separator.
+- delim (optional)<br> Adds a thousands separator:<br> • True or "default" → underscore: 1_000_000<br> • "," → comma: 1,000,000<br> • "." → dot: 1.000.000<br> • False → no separator
+
+- mode (optional, default = "standard")<br> • "standard" → default mode<br> • "engineering" → high-precision mode using decimal.Decimal
 
 # Notes 📌
-- Units are case-insensitive. (exception for data and speed unit)
-- Flexible naming (e.g., "kg", "kilogram", "Kilograms" all work).
-- Safe rounding with fallback if result is an integer.
-- Delimiters help with large numbers.
+- Units are case-insensitive. (Exception: data and speed units where b ≠ B, and formatting like m/s matters.)
+- Flexible unit names. For example: "kg", "kilogram", "Kilograms" are all valid and automatically recognized.
+- Smart rounding system ensures accurate output and avoids losing significance. Whole number results are automatically simplified.
+- Delimiters improve large number readability (e.g., 1_000_000 or 1,000,000).
+- Supports multiple output formats: raw number, tagged result (value + unit), or full verbose expression.
+- Highly precise with engineering mode — ideal for technical/scientific usage.
+- Clear error messages for invalid inputs or unsupported units.
+- Easily extendable for custom units in future versions.
+
+⚠️ **Note on Engineering Mode Output:**
+When using `mode="engineering"`, the result is returned as a high-precision `Decimal` object to ensure maximum accuracy.<br>Please note that `Decimal` values cannot be directly operated with `float` or `int` types in Python.
+
+If you need to perform mathematical operations with the result, consider casting it manually:
+```python
+float_result = float(result)
+```
 
 # Another Information 🔍
-This module is now available on PyPI. You can install it directly using `pip install unitflex`. Once installed, you can import and use the length, mass, temper, and data classes from the unitflex package. Each class provides a convert() method that accepts the value to be converted, the source unit, the target unit, the number of decimal digits, and the preferred output style.
+This library is now available on PyPI. You can install it directly using `pip install unitflex`. Once installed, you can import and use the length, mass, temper, and data classes from the unitflex package. Each class provides a convert() method that accepts the value to be converted, the source unit, the target unit, the number of decimal digits, and the preferred output style.
+
+After the installation with `pip install unitflex`, you can import and use this library by:<br>
+```python
+from unitflex import length, speed, time
+a = speed.convert(12, "mach", "km/h") # Convert 12 mach to km/h
+b = time.convert(18, "year", "second", delim="default", prec=2, format="tag") # Convert 18 years to seconds using delim, prec and format paramaters
+c = length.convert(12.0504, "nm", "cm", format="raw", prec=12, mode="engineering") # Converting 12.0504 nanometers to centimeters using `engineering mode` to obtain a highly accurate result — ideal for outputs with many decimal places.
+```
 
 The folder structure of this project is organized for clarity and scalability. The main package, `unitflex`, contains individual modules for each category of conversion (such as `length.py`, `mass.py`, `data.py` and `temperature.py`). In addition, there are directories for usage examples and test scripts, which help demonstrate the library's capabilities and ensure consistent performance through future updates.
 
