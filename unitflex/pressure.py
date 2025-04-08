@@ -1,12 +1,27 @@
 from decimal import Decimal, getcontext, ROUND_HALF_UP
 import warnings
+import re
+
+def normalizePressureUnit(unit: str) -> str:
+    unit = unit.strip().lower()
+    unit = re.sub(r'[^a-z0-9]+', '/', unit)          
+    unit = re.sub(r'/+', '/', unit)                  
+    unit = unit.replace("per", "/").replace("square", "")
+    unit = unit.replace(" ", "")
+
+    aliases = {
+        "psia": "psi",  
+        "psig": "psi",
+    }
+
+    return aliases.get(unit, unit)
+
 class pressureConverter:
     conversionRates = {
         # SI Units
         "pa": 1, "pascal": 1, "pascals": 1,
 
         # Metric multiples
-        "kpa": 1e3, "kilopascal": 1e3, "kilopascals": 1e3,
         "kpa": 1e3, "kilopascal": 1e3, "kilopascals": 1e3,
         "mpa": 1e6, "megapascal": 1e6, "megapascals": 1e6,
         "gpa": 1e9, "gigapascal": 1e9, "gigapascals": 1e9,
@@ -29,12 +44,44 @@ class pressureConverter:
         # Per Square Inch
         "psi": 6894.76, "pound per square inch": 6894.76, "pounds per square inch": 6894.76,
         "ksi": 6_894_760, "kip per square inch": 6_894_760, "kips per square inch": 6_894_760,
+
+        # CGS System
+        "barye": 0.1, "ba": 0.1,  # 1 barye = 0.1 Pa
+        "dyne/cm²": 0.1, "dyne per square centimeter": 0.1, "dyne/cm2": 0.1, "dyne per cm 2": 0.1,
+
+        # Technical atmosphere (kgf/cm²)
+        "at": 98066.5, "technical atmosphere": 98066.5, "technical atmospheres": 98066.5,
+
+        # Kilogram-force per square meter
+        "kgf/m²": 9.80665, "kilogram-force per square meter": 9.80665, "kgf/m2": 9.80665, "kgf per m2": 9.80665,
+
+        # Kilogram-force per square centimeter (alias technical atm)
+        "kgf/cm²": 98066.5, "kilogram-force per square centimeter": 98066.5, "kgf/cm3": 98066.5, "kgf per cm3": 98066.5,
+
+        # Ton-force per square inch
+        "tsi": 1.379e7, "ton per square inch": 1.379e7, "tons per square inch": 1.379e7,
+
+        # Ton-force per square foot
+        "tsf": 9.578e4, "ton per square foot": 9.578e4, "tons per square foot": 9.578e4,
+
+        # Ton-force per square meter
+        "tf/m²": 9806650, "ton-force per square meter": 9806650, "tf/m2": 9806650, "tf per m²": 9806650,
+
+        # Pascal fractions (smaller than Pa)
+        "millipa": 1e-3, "millipascal": 1e-3, "millipascals": 1e-3,
+        "μpa": 1e-6, "micropascal": 1e-6, "micropascals": 1e-6, "micro pascal": 1e-6,
+        "npa": 1e-9, "nanopascal": 1e-9, "nanopascals": 1e-9,
+        "ppa": 1e-12, "picopascal": 1e-12, "picopascals": 1e-12,
+
+        # Pascal multiples (extra large)
+        "tpa": 1e12, "terapascal": 1e12, "terapascals": 1e12,
+        "epa": 1e18, "exapascal": 1e18, "exapascals": 1e18,
     }
 
     @classmethod
     def convert(cls, value, fromUnit, toUnit, *, prec=2, format="tag", delim=False, mode="standard"):
-        toUnit = toUnit.lower().strip()
-        fromUnit = fromUnit.lower().strip()
+        fromUnit = normalizePressureUnit(fromUnit)
+        toUnit = normalizePressureUnit(toUnit)
         format = format.lower().strip()
         mode = mode.lower().strip()
 
@@ -75,7 +122,7 @@ class pressureConverter:
                     quant = Decimal(f"1e-{prec}")
                     finalValue = convertedValue.quantize(quant)
             except (InvalidOperation, ValueError):
-                finalValue = convertedValue 
+                finalValue = convertedValue
         else:
             defaultValue = value * cls.conversionRates[fromUnit]
             convertedValue = defaultValue / cls.conversionRates[toUnit]
