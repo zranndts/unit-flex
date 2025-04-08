@@ -46,7 +46,6 @@ Based on accurate average durations (e.g., 1 month = 30.44 days)
 > The system automatically recognizes and converts them.
 
 <-- There will be many useful converters to come, stay tuned! -->
-<!-- There will be many useful converters to come, stay tuned! -->
 ---
 
 # Parameters Explained 🔧
@@ -62,7 +61,8 @@ Each convert() function accepts up to six parameters. The first three are requir
 
 - format (optional, default = "tag")<br> Output style:<br> • "raw" → numeric only (ideal for calculations)<br> • "tag" → number + unit<br> • "verbose" → detailed explanation (e.g. "1 meter = 100 cm")
 
-- delim (optional)<br> Adds a thousands separator:<br> • True or "default" → underscore: 1_000_000<br> • "," → comma: 1,000,000<br> • "." → dot: 1.000.000<br> • False → no separator
+- delim (optional)<br> Adds a separator:<br> • True or "default" → comma: 1,000,000<br> • "." → dot: 1.000.000<br> • False → no separator<br>⚠️ **Note on delim and format="raw**<br>
+When using format="raw", the output is intended for further calculations. Therefore, even if delim is set to "default" or any custom separator, no separators will be applied — the result will be returned as a clean float, int, or Decimal without formatting.
 
 - mode (optional, default = "standard")<br> • "standard" → default mode<br> • "engineering" → high-precision mode using decimal.Decimal
 
