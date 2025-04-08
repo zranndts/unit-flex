@@ -1,15 +1,19 @@
 import sys
 import os
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
-# IGNORE THAT
+# -- IGNORE THAT --
 
 from unitflex import length
 
-# Convert 5 kilometers to meters without delimiter and default precision and format
-print(length.convert(5, "km", "m"))
-# If delim = True, uses underscore "_" as the default separator because the result can still be processed with arithmetic operations.
+# Convert 1000000 micrometers to meters
+print(length.convert(1_000_000, "micrometers", "meters", prec=2, format="tag", delim="default"))  # OR //
+print(length.convert(1_000_000, "micrometers", "meters", prec=2, format="raw", delim="default"))  # raw = no delimiter
 
-# Convert 12 inches to centimeters with precision 1, verbose (detail output) delim (delimiter) ',' as separator 
-print(length.convert(49, "km", "cm", "1", "verbose", ","))
-print(length.convert(1, "cm", "nm", "2", "tag", ","))
-print(length.convert(1, "cm", "nm", "2", "tag", "default"))
+# Or
+print(length.convert(2.5, "km", "mile", prec="4", format="verbose", delim=True))        # uses default ','
+print(length.convert(2.5, "km", "mile", prec="4", format="verbose", delim="default"))   # uses default ','
+print(length.convert(2.5, "km", "mile", prec="4", format="verbose", delim="."))         # use '.' as delimiter
+
+# Engineering Mode - high precision
+result = length.convert(12.3200912, "nm", "m", prec="17", mode="engineering", format="verbose")
+print(result)

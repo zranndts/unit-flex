@@ -1,3 +1,5 @@
+from decimal import Decimal, getcontext, ROUND_HALF_UP
+import warnings
 class lengthConverter:
     conversionRates = {
         # Metric Units (SI)
@@ -21,40 +23,75 @@ class lengthConverter:
     }
 
     @classmethod
-    def convert(cls, value, fromUnit, toUnit, precision=2, format="tag", delim=False):
-        fromUnit = fromUnit.lower()
-        toUnit = toUnit.lower()
+    def convert(cls, value, fromUnit, toUnit, *, prec=2, format="tag", delim=False, mode="standard"):
+        toUnit = toUnit.lower().strip()
+        fromUnit = fromUnit.lower().strip()
+        format = format.lower().strip()
+        mode = mode.lower().strip()
 
         if fromUnit not in cls.conversionRates:
             raise ValueError(f"From unit '{fromUnit}' not recognized!")
         if toUnit not in cls.conversionRates:
             raise ValueError(f"To unit '{toUnit}' not recognized!")
 
-        defaultValue = value * cls.conversionRates[fromUnit]
-        convertedValue = defaultValue / cls.conversionRates[toUnit]
+        try:
+            prec = int(prec)
+        except (ValueError, TypeError):
+            raise ValueError("Precision must be an integer!")
 
-        if int(precision) < 0:
+        if prec < 0:
             raise ValueError("Precision can't be negative!")
 
-        roundedValue = round(convertedValue, int(precision))
-        if roundedValue == int(roundedValue):
-            roundedValue = int(roundedValue) 
+        if mode not in ("standard", "engineering"):
+            raise ValueError("Mode must be either 'standard' or 'engineering'.")
+
+        if mode == "standard" and prec > 6:
+            warnings.warn("High precision requested in standard mode. Consider using engineering mode for better accuracy.")
+
+        if mode == "engineering":
+            getcontext().prec = prec + 5
+            getcontext().rounding = ROUND_HALF_UP
+
+            try:
+                value = Decimal(str(value))
+                fromFactor = Decimal(str(cls.conversionRates[fromUnit]))
+                toFactor = Decimal(str(cls.conversionRates[toUnit]))
+
+                defaultValue = value * fromFactor
+                convertedValue = defaultValue / toFactor
+
+                if convertedValue == convertedValue.to_integral():
+                    finalValue = convertedValue
+                else:
+                    quant = Decimal(f"1e-{prec}")
+                    finalValue = convertedValue.quantize(quant)
+            except (InvalidOperation, ValueError):
+                finalValue = convertedValue
+        else:
+            defaultValue = value * cls.conversionRates[fromUnit]
+            convertedValue = defaultValue / cls.conversionRates[toUnit]
+            finalValue = round(convertedValue, prec)
+
+        if isinstance(finalValue, (float, Decimal)) and finalValue == int(finalValue):
+            finalValue = int(finalValue)
 
         if format == "raw":
-            return roundedValue
+            return finalValue
 
-        if roundedValue == int(roundedValue):
-            if delim:
-                separator = "_" if delim is True or str(delim).lower().strip() == "default" else str(delim)
-                formattedValue = f"{int(roundedValue):,}".replace(",", separator)
+        separator = None
+        if delim:
+            if delim is True or str(delim).lower() == "default":
+                separator = ","
             else:
-                formattedValue = str(int(roundedValue))
+                separator = str(delim)
+
+        if isinstance(finalValue, int):
+            formattedValue = f"{finalValue:,}" if separator else str(finalValue)
         else:
-            if delim:
-                separator = "_" if delim is True or str(delim).lower().strip() == "default" else str(delim)
-                formattedValue = f"{roundedValue:,.{precision}f}".replace(",", separator)
-            else:
-                formattedValue = f"{roundedValue:.{precision}f}"
+            formattedValue = f"{finalValue:,.{prec}f}" if separator else f"{finalValue:.{prec}f}"
+
+        if separator:
+            formattedValue = formattedValue.replace(",", separator)
 
         if format == "tag":
             return f"{formattedValue} {toUnit}"
@@ -62,4 +99,3 @@ class lengthConverter:
             return f"{value} {fromUnit} = {formattedValue} {toUnit}"
         else:
             raise ValueError("Unexpected format parameter!")
-

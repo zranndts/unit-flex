@@ -1,3 +1,5 @@
+from decimal import Decimal, getcontext, ROUND_HALF_UP, InvalidOperation
+import warnings
 class temperatureConverter:
     conversionToCelsius = {
         "c": lambda x: x, "celsius": lambda x: x, "celcius": lambda x: x, "°c": lambda x: x,
@@ -5,7 +7,6 @@ class temperatureConverter:
         "k": lambda x: x - 273.15, "kelvin": lambda x: x - 273.15, "°k": lambda x: x - 273.15,
         "r": lambda x: (x - 491.67) * 5 / 9, "rankine": lambda x: (x - 491.67) * 5 / 9, "°r": lambda x: (x - 491.67) * 5 / 9,
         "re": lambda x: x * 5 / 4, "reaumur": lambda x: x * 5 / 4, "réaumur": lambda x: x * 5 / 4, "°re": lambda x: x * 5 / 4, "°ré": lambda x: x * 5 / 4
-
     }
 
     conversionFromCelsius = {
@@ -13,11 +14,13 @@ class temperatureConverter:
         "f": lambda x: (x * 9 / 5) + 32, "fahrenheit": lambda x: (x * 9 / 5) + 32, "°f": lambda x: (x * 9 / 5) + 32,
         "k": lambda x: x + 273.15, "kelvin": lambda x: x + 273.15, "°k": lambda x: x + 273.15,
         "r": lambda x: (x + 273.15) * 9 / 5, "rankine": lambda x: (x + 273.15) * 9 / 5, "°r": lambda x: (x + 273.15) * 9 / 5,
-        "re": lambda x: x * 4 / 5, "reaumur": lambda x: x * 4 / 5, "réaumur": lambda x: x * 4 / 5, "°re": lambda x: x * 4 / 5, "°ré": lambda x: x * 4 / 5 
+        "re": lambda x: x * 4 / 5, "reaumur": lambda x: x * 4 / 5, "réaumur": lambda x: x * 4 / 5, "°re": lambda x: x * 4 / 5, "°ré": lambda x: x * 4 / 5
     }
 
     @classmethod
-    def convert(cls, value, fromUnit, toUnit, precision=1, format="tag", delim=False):
+    def convert(cls, value, fromUnit, toUnit, *, prec=1, format="tag", delim=False, mode="standard"):
+        toUnit = toUnit.lower().strip()
+        fromUnit = fromUnit.lower().strip()
         fromUnit = fromUnit.lower()
         toUnit = toUnit.lower()
 
@@ -26,39 +29,66 @@ class temperatureConverter:
         if toUnit not in cls.conversionFromCelsius:
             raise ValueError(f"To unit '{toUnit}' not recognized!")
 
-        celsiusValue = cls.conversionToCelsius[fromUnit](value)
-        convertedValue = cls.conversionFromCelsius[toUnit](celsiusValue)
+        try:
+            prec = int(prec)
+        except (ValueError, TypeError):
+            raise ValueError("Precision must be an integer!")
 
-        if int(precision) < 0:
+        if prec < 0:
             raise ValueError("Precision can't be negative!")
-        
-        roundedValue = round(convertedValue, int(precision))
-        if roundedValue == int(roundedValue):
-            roundedValue = int(roundedValue) 
+
+        mode = mode.lower()
+        if mode not in ("standard", "engineering"):
+            raise ValueError("Mode must be either 'standard' or 'engineering'.")
+
+        if mode == "standard" and prec > 6:
+            warnings.warn("High precision requested in standard mode. Consider using engineering mode for better accuracy.")
+
+        if mode == "engineering":
+            getcontext().prec = prec + 5
+            getcontext().rounding = ROUND_HALF_UP
+
+            try:
+                value = Decimal(str(value))
+                celsiusValue = Decimal(str(cls.conversionToCelsius[fromUnit](value)))
+                convertedValue = Decimal(str(cls.conversionFromCelsius[toUnit](celsiusValue)))
+
+                if convertedValue == convertedValue.to_integral():
+                    finalValue = convertedValue
+                else:
+                    quant = Decimal(f"1e-{prec}")
+                    finalValue = convertedValue.quantize(quant)
+            except (InvalidOperation, ValueError):
+                finalValue = convertedValue
+        else:
+            celsiusValue = cls.conversionToCelsius[fromUnit](value)
+            convertedValue = cls.conversionFromCelsius[toUnit](celsiusValue)
+            finalValue = round(convertedValue, prec)
+
+        if isinstance(finalValue, (float, Decimal)) and finalValue == int(finalValue):
+            finalValue = int(finalValue)
 
         if format == "raw":
-            return roundedValue
+            return finalValue
 
-        if roundedValue == int(roundedValue):
-            if delim:
-                separator = "_" if delim is True or str(delim).lower().strip() == "default" else str(delim)
-                formattedValue = f"{int(roundedValue):,}".replace(",", separator)
+        separator = None
+        if delim:
+            if delim is True or str(delim).lower().strip() == "default":
+                separator = ","
             else:
-                formattedValue = str(int(roundedValue))
+                separator = str(delim)
+
+        if isinstance(finalValue, int):
+            formattedValue = f"{finalValue:,}" if separator else str(finalValue)
         else:
-            if delim:
-                separator = "_" if delim is True or str(delim).lower().strip() == "default" else str(delim)
-                formattedValue = f"{roundedValue:,.{precision}f}".replace(",", separator)
-            else:
-                formattedValue = f"{roundedValue:.{precision}f}"
-    
+            formattedValue = f"{finalValue:,.{prec}f}" if separator else f"{finalValue:.{prec}f}"
+
+        if separator:
+            formattedValue = formattedValue.replace(",", separator)
+
         if format == "tag":
-            if toUnit in ["c", "f", "k", "r", "re"]:
-                return f"{formattedValue} °{toUnit}"
-            else:
-                return f"{formattedValue} {toUnit}"
+            return f"{formattedValue} °{toUnit}" if toUnit in {"c", "f", "k", "r", "re"} else f"{formattedValue} {toUnit}"
         elif format == "verbose":
-            if toUnit in ["c", "f", "k", "r", "re"]:
-                return f"{value} °{fromUnit} = {formattedValue} °{toUnit}"
-            else:
-                return f"{value} {fromUnit} = {formattedValue} {toUnit}"
+            return f"{value} °{fromUnit} = {formattedValue} °{toUnit}" if toUnit in {"c", "f", "k", "r", "re"} else f"{value} {fromUnit} = {formattedValue} {toUnit}"
+        else:
+            raise ValueError("Unexpected format parameter!")

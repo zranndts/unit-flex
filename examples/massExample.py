@@ -1,16 +1,19 @@
 import sys
 import os
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
-# IGNORE THAT
+# -- IGNORE THAT --
 
 from unitflex import mass
 
-# Convert 2.5 kilograms to grams with raw output
-print(mass.convert(2.65, fromUnit="kg", toUnit="g", precision=2, format="raw", delim=True)) # OR //
-print(mass.convert(2.65, "kg", "g", "2", "raw", True))
-# If delim == True or "default", uses underscore "_" as the default separator because the result can still be processed with arithmetic operations.
+# Convert 1500 grams to pounds, menggunakan tag dan raw output
+print(mass.convert(1500, "grams", "pounds", prec=4, format="tag", delim="default"))  # OR //
+print(mass.convert(1500, "grams", "pounds", prec=4, format="raw", delim="default"))  # raw = no delimiter
 
 # Or
-print(mass.convert(1000, "quintal", "kg", "2", "verbose", True)) # set delimiter True == uses default separator '_'
-print(mass.convert(1000, "quintal", "kg", "2", "verbose", "default")) # set delimiter "default" uses default separator '_'
-print(mass.convert(1000, "quintal", "kg", "2", "verbose", ".")) # Set '.' as separator
+print(mass.convert(5, "kg", "stone", prec="3", format="verbose", delim=True))         # uses default ','
+print(mass.convert(5, "kg", "stone", prec="3", format="verbose", delim="default"))    # uses default ','
+print(mass.convert(5, "kg", "stone", prec="3", format="verbose", delim="."))          # use '.' as delimiter
+
+# Engineering Mode - extremely high precision
+result = mass.convert(5.001232123, "mg", "ons", prec="16", mode="engineering", format="verbose")
+print(result)

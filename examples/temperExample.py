@@ -1,16 +1,19 @@
 import sys
 import os
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
-# IGNORE THAT
+# -- IGNORE THAT --
 
 from unitflex import temper
 
-# Convert celcius fahrenheit to fahrenheit with tag output
-print(temper.convert(100, fromUnit="f", toUnit="c", precision=2, format="verbose", delim=True)) # OR //
-print(temper.convert(100, "f", "c", "2", "tag", True))
-# If delim == True or "default", uses underscore "_" as the default separator because the result can still be processed with arithmetic operations.
+# Convert 100 Celsius to Fahrenheit, tag dan raw output
+print(temper.convert(100, "celsius", "fahrenheit", prec=2, format="tag", delim="default")) # OR //
+print(temper.convert(100, "celsius", "fahrenheit", prec=2, format="raw", delim="default")) # raw = no delimiter
 
 # Or
-print(temper.convert(250, "reaumur", "rankine", "2", "verbose", True)) 
-print(temper.convert(250, "reaumur", "rankine", "2", "verbose", "default")) 
-print(temper.convert(300, "celcius", "rankine", "2", "verbose", ",")) # Set ',' as separator
+print(temper.convert(77, "f", "k", prec="3", format="verbose", delim=True))        # uses default ','
+print(temper.convert(77, "f", "k", prec="3", format="verbose", delim="default"))   # uses default ','
+print(temper.convert(77, "f", "k", prec="3", format="verbose", delim="."))         # use '.' as delimiter
+
+# Engineering Mode - extremely high precision
+result = temper.convert(451, "fahrenheit", "k", prec="30", mode="engineering", format="verbose")
+print(result)

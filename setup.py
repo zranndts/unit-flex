@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 setup(
     name="unitflex",
-    version="0.5.0",  
+    version="0.8.0",  
     author="zranndts",
     author_email="vleaxorzz@gmail.com",
     description="Unit Converter Library",
