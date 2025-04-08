@@ -3,13 +3,20 @@ import warnings
 class volumeConverter:
 
     conversionRates = {
-        # Metric Units (SI)
+        # Metric Units (SI)0
+        "nl": 1e-9, "nanoliter": 1e-9, "nanoliters": 1e-9,
+        "µl": 1e-6, "μl": 1e-6, "microliter": 1e-6, "microliters": 1e-6,
         "ml": 1e-6, "milliliter": 1e-6, "milliliters": 1e-6,
         "cl": 1e-5, "centiliter": 1e-5, "centiliters": 1e-5,
         "dl": 1e-4, "deciliter": 1e-4, "deciliters": 1e-4,
+        "dal": 1e-2, "dekaliter": 1e-2, "dekaliters": 1e-2,
         "l": 1e-3, "liter": 1e-3, "liters": 1e-3,
         "hl": 0.1, "hectoliter": 0.1, "hectoliters": 0.1,
-        "m3": 1, "cubic meter": 1, "cubic meters": 1,
+        "m3": 1, "m³": 1, "cubic meter": 1, "cubic meters": 1,
+        "cm3": 1e-6, "cm³": 1e-6, "cubic centimeter": 1e-6, "cubic centimeters": 1e-6,"cubic centimetre": 1e-6,
+        "dm3": 1e-3, "dm³": 1e-3, "cubic decimeter": 1e-3, "cubic decimeters": 1e-3,
+        "mm3": 1e-9, "mm³": 1e-9, "cubic millimeter": 1e-9, "cubic millimeters": 1e-9,
+        "km3": 1e9,  "km³": 1e9,  "cubic kilometer": 1e9, "cubic kilometer": 1e9,
         
         # Imperial / US Units
         "tsp": 4.92892e-6, "teaspoon": 4.92892e-6, "teaspoons": 4.92892e-6,
@@ -22,6 +29,12 @@ class volumeConverter:
         "in3": 1.63871e-5, "cubic inch": 1.63871e-5, "cubic inches": 1.63871e-5,
         "ft3": 0.0283168, "cubic foot": 0.0283168, "cubic feet": 0.0283168,
         "yd3": 0.764555, "cubic yard": 0.764555, "cubic yards": 0.764555,
+
+        # UK-specific gallon
+        "uk gal": 4.54609e-3, "imperial gallon": 4.54609e-3, "imperial gallons": 4.54609e-3,
+        
+        # Barrel (oil barrel, common in industry)
+        "bbl": 0.158987, "barrel": 0.158987, "barrels": 0.158987,
     }
 
     @classmethod
