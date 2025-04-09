@@ -3,7 +3,7 @@ import warnings
 class volumeConverter:
 
     conversionRates = {
-        # Metric Units (SI)0
+        # Metric Units (SI)
         "nl": 1e-9, "nanoliter": 1e-9, "nanoliters": 1e-9,
         "µl": 1e-6, "μl": 1e-6, "microliter": 1e-6, "microliters": 1e-6,
         "ml": 1e-6, "milliliter": 1e-6, "milliliters": 1e-6,
@@ -13,28 +13,28 @@ class volumeConverter:
         "l": 1e-3, "liter": 1e-3, "liters": 1e-3,
         "hl": 0.1, "hectoliter": 0.1, "hectoliters": 0.1,
         "m3": 1, "m³": 1, "cubic meter": 1, "cubic meters": 1,
-        "cm3": 1e-6, "cm³": 1e-6, "cubic centimeter": 1e-6, "cubic centimeters": 1e-6,"cubic centimetre": 1e-6,
+        "cm3": 1e-6, "cm³": 1e-6, "cubic centimeter": 1e-6, "cubic centimeters": 1e-6, "cubic centimetre": 1e-6,
         "dm3": 1e-3, "dm³": 1e-3, "cubic decimeter": 1e-3, "cubic decimeters": 1e-3,
         "mm3": 1e-9, "mm³": 1e-9, "cubic millimeter": 1e-9, "cubic millimeters": 1e-9,
-        "km3": 1e9,  "km³": 1e9,  "cubic kilometer": 1e9, "cubic kilometer": 1e9,
-        
-        # Imperial / US Units
-        "tsp": 4.92892e-6, "teaspoon": 4.92892e-6, "teaspoons": 4.92892e-6,
-        "tbsp": 1.47868e-5, "tablespoon": 1.47868e-5, "tablespoons": 1.47868e-5,
-        "floz": 2.95735e-5, "fl oz": 2.95735e-5, "fluid ounce": 2.95735e-5, "fluid ounces": 2.95735e-5,
-        "cup": 2.36588e-4, "cups": 2.36588e-4,
-        "pt": 4.73176e-4, "pint": 4.73176e-4, "pints": 4.73176e-4,
-        "qt": 9.46353e-4, "quart": 9.46353e-4, "quarts": 9.46353e-4,
-        "gal": 3.78541e-3, "gallon": 3.78541e-3, "gallons": 3.78541e-3,
-        "in3": 1.63871e-5, "cubic inch": 1.63871e-5, "cubic inches": 1.63871e-5,
-        "ft3": 0.0283168, "cubic foot": 0.0283168, "cubic feet": 0.0283168,
-        "yd3": 0.764555, "cubic yard": 0.764555, "cubic yards": 0.764555,
+        "km3": 1e9,  "km³": 1e9,  "cubic kilometer": 1e9, "cubic kilometers": 1e9,
 
-        # UK-specific gallon
-        "uk gal": 4.54609e-3, "imperial gallon": 4.54609e-3, "imperial gallons": 4.54609e-3,
-        
-        # Barrel (oil barrel, common in industry)
-        "bbl": 0.158987, "barrel": 0.158987, "barrels": 0.158987,
+        # US Customary Units (based on NIST definitions)
+        "tsp": 4.92892159375e-6, "teaspoon": 4.92892159375e-6, "teaspoons": 4.92892159375e-6,
+        "tbsp": 1.478676478125e-5, "tablespoon": 1.478676478125e-5, "tablespoons": 1.478676478125e-5,
+        "floz": 2.95735295625e-5, "fl oz": 2.95735295625e-5, "fluid ounce": 2.95735295625e-5, "fluid ounces": 2.95735295625e-5,
+        "cup": 2.365882375e-4, "cups": 2.365882375e-4,
+        "pt": 4.73176475e-4, "pint": 4.73176475e-4, "pints": 4.73176475e-4,
+        "qt": 9.4635295e-4, "quart": 9.4635295e-4, "quarts": 9.4635295e-4,
+        "gal": 3.785411784e-3, "us sgal": 3.785411784e-3, "gallon": 3.785411784e-3, "gallons": 3.785411784e-3,
+        "in3": 1.6387064e-5, "cubic inch": 1.6387064e-5, "cubic inches": 1.6387064e-5,
+        "ft3": 0.028316846592, "cubic foot": 0.028316846592, "cubic feet": 0.028316846592,
+        "yd3": 0.764554857984, "cubic yard": 0.764554857984, "cubic yards": 0.764554857984,
+
+        # UK Imperial Units
+        "uk gal": 4.54609e-3, "uk-gal": 4.54609e-3, "gal-uk": 4.54609e-3, "imperial gallon": 4.54609e-3, "imperial gallons": 4.54609e-3,
+
+        # Oil Barrel
+        "bbl": 0.158987294928, "barrel": 0.158987294928, "barrels": 0.158987294928,
     }
 
     @classmethod
