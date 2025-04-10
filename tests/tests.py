@@ -14,10 +14,20 @@ print(length.convert(12, "miles", "cm", prec=2, format="verbose", delim="default
 print(length.convert(10, "miles", "cm", prec=2, format="tag", delim=","))
 print(length.convert(10, "miles", "cm", prec=2, format="tag", delim="."))
 print(length.convert(10, "miles", "cm", prec=2, format="tag", delim="-"))
+
+print("\n-- Extreme Length Converter Test --\n")
+print(length.convert(1, "lightyear", "femtometer", prec=0, mode="engineering", delim="default")) # Extreme conv test 1
+print(length.convert(1, "femtometer", "parsec", prec=32, mode="engineering")) # Extreme conv test 2
+print(length.convert(1, "mile", "picometer", prec=2, mode="engineering", delim="default")) # Extreme conv test 3
+print(length.convert(1, "point", "lightyear", prec=20, mode="engineering")) # Extreme conv test 4
+print(length.convert(1, "nauticalmile", "nm", prec=0, mode="engineering", delim="default")) # Extreme conv test 5
+print(length.convert(1, "lightyear", "km", prec=13, mode="engineering", delim="default", format="verbose")) # Extreme conv test 6
+print(length.convert(1, "km", "lightyears", prec=50, mode="engineering")) # Extreme conv test 7
+print("----")
+
 num1 = length.convert(1.23456789, "miles", "km", prec=12,format="raw", delim="_", mode="engineering")
 num2 = length.convert(9.87654321, "miles", "km", prec=12,format="raw", delim="_", mode="engineering")
 print(f"{num1 + num2} km")
-
 
 # Round result 
 print(length.convert(1.609, fromUnit="km", toUnit="miles", prec=2, format="tag", delim=","))
@@ -62,6 +72,9 @@ lb2 = mass.convert(14.46005, "g", "lb", prec=12, format="raw", mode="engineering
 print(lb1 - lb2)
 print(mass.convert(12123, "g", "kg", prec=2, format="tag"))
 print(mass.convert(24, "carat", "g"))
+print(mass.convert(1, "arroba-pt", "arroba-es", format="verbose"))
+print(mass.convert(1, "earthmass", "kg", format="verbose", mode="engineering", delim="default"))
+print(mass.convert(1, "solarmass", "earthmass", format="verbose", mode="engineering", prec="6", delim="default"))
 
 print("\n------ Temper\n")
 
@@ -87,7 +100,7 @@ print("\n------ Data\n")
 # Data Test 
 print(data.convert(1, fromUnit="pb", toUnit="gb", format="verbose", delim=","))
 print(data.convert(10, fromUnit="bytes", toUnit="bit", format="tag"))
-print(data.convert(1, fromUnit="gbyte", toUnit="bit", format="tag", delim=","))
+print(data.convert(1, fromUnit="exabyte", toUnit="bit", format="tag", delim=",", mode="engineering"))
 print(data.convert(1, fromUnit="gbyte", toUnit="bit", prec=1, format="tag", delim="default", mode="engineering"))
 print(data.convert(80, fromUnit="MBps", toUnit="Mbps", format="verbose"))
 print(data.convert(150, fromUnit="mbps", toUnit="gbps", format="raw"))
@@ -112,7 +125,8 @@ print(vol.convert(750, "ml", "cup", prec=10, format="verbose", mode="engineering
 print(vol.convert(10, "cup", "tsp", prec=0, format="tag"))
 print(vol.convert(3.78541, "l", "gal", prec=5, format="verbose"))
 print(vol.convert(2, "in3", "cl", prec=2))
-print(vol.convert(2, "in3", "cl", prec=2, delim="dot"))
+print(vol.convert(2, "in3", "cl", prec=2, delim="default"))
+print(vol.convert(1, "gal", "uk gal", prec=20, mode="engineering", format="verbose"))
 
 print("\n------ Pressure\n")
 
@@ -121,6 +135,8 @@ print(press.convert(1_000_000, fromUnit="pa", toUnit="mpa", prec=2, format="tag"
 print(press.convert(1_000_000, fromUnit="pascal", toUnit="megapascal", prec=2, format="tag", delim=","))
 print(press.convert(2.5, fromUnit="bar", toUnit="psi", prec=4, format="verbose"))
 print(press.convert(14.7, fromUnit="psi", toUnit="bar", prec=4, format="verbose"))
+print(press.convert(20, fromUnit="psig", toUnit="psia", prec=2, format="verbose"))
+print(press.convert(200, fromUnit="psia", toUnit="psig", prec=2, format="verbose", mode="engineering"))
 print(press.convert(10, fromUnit="atm", toUnit="pa", prec=2, format="raw"))
 raw1 = press.convert(1, "torr", "pa", prec=4, format="raw")
 raw2 = press.convert(2, "inHg", "pa", prec=4, format="raw")

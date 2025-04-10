@@ -18,26 +18,28 @@ class temperatureConverter:
     }
 
     @classmethod
-    def convert(cls, value, fromUnit, toUnit, *, prec=1, format="tag", delim=False, mode="standard"):
+    def convert(cls, value, fromUnit, toUnit, *, prec=None, format="tag", delim=False, mode="standard"):
         toUnit = toUnit.lower().strip()
         fromUnit = fromUnit.lower().strip()
         fromUnit = fromUnit.lower()
         toUnit = toUnit.lower()
+        mode = mode.lower()
 
         if fromUnit not in cls.conversionToCelsius:
             raise ValueError(f"From unit '{fromUnit}' not recognized!")
         if toUnit not in cls.conversionFromCelsius:
             raise ValueError(f"To unit '{toUnit}' not recognized!")
 
-        try:
-            prec = int(prec)
-        except (ValueError, TypeError):
-            raise ValueError("Precision must be an integer!")
-
-        if prec < 0:
+        if prec is None:
+            prec = 9 if mode == "engineering" else 2
+        elif int(prec) < 0:
             raise ValueError("Precision can't be negative!")
+        else:
+            try:
+                prec = int(prec)
+            except (ValueError, TypeError):
+                raise ValueError("Precision must be a Number!")
 
-        mode = mode.lower()
         if mode not in ("standard", "engineering"):
             raise ValueError("Mode must be either 'standard' or 'engineering'.")
 

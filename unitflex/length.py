@@ -46,7 +46,7 @@ class lengthConverter:
     sensitiveUnits = {"pc", "parsec", "femtometer", "fm", "fermi", "ly", "lightyear"}
 
     @classmethod
-    def convert(cls, value, fromUnit, toUnit, *, prec=2, format="tag", delim=False, mode="standard"):
+    def convert(cls, value, fromUnit, toUnit, *, prec=None, format="tag", delim=False, mode="standard"):
         toUnit = toUnit.lower().strip()
         fromUnit = fromUnit.lower().strip()
         format = format.lower().strip()
@@ -60,13 +60,15 @@ class lengthConverter:
         if toUnit not in cls.conversionRates:
             raise ValueError(f"To unit '{toUnit}' not recognized!")
 
-        try:
-            prec = int(prec)
-        except (ValueError, TypeError):
-            raise ValueError("Precision must be an integer!")
-
-        if prec < 0:
+        if prec is None:
+            prec = 9 if mode == "engineering" else 2
+        elif int(prec) < 0:
             raise ValueError("Precision can't be negative!")
+        else:
+            try:
+                prec = int(prec)
+            except (ValueError, TypeError):
+                raise ValueError("Precision must be a Number!")
 
         if mode not in ("standard", "engineering"):
             raise ValueError("Mode must be either 'standard' or 'engineering'.")
@@ -87,11 +89,11 @@ class lengthConverter:
                 convertedValue = defaultValue / toFactor
 
                 digits = convertedValue.adjusted() + 1 
-                decimal_places = max(prec - digits, 0)
+                decimalPlaces = max(prec - digits, 0)
 
-                if decimal_places > 0:
+                if decimalPlaces > 0:
                     try:
-                        quant = Decimal(f"1e-{decimal_places}")
+                        quant = Decimal(f"1e-{decimalPlaces}")
                         finalValue = convertedValue.quantize(quant)
                     except InvalidOperation:
                         finalValue = convertedValue.normalize()
@@ -112,7 +114,7 @@ class lengthConverter:
 
         separator = None
         if delim:
-            if delim is True or str(delim).lower() == "default":
+            if delim is True or str(delim).lower().strip() == "default":
                 separator = ","
             else:
                 separator = str(delim)
