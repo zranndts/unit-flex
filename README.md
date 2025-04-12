@@ -10,17 +10,26 @@ It even supports a special `"engineering"` mode for precise calculations using `
 
 # Supported Converters 🧪 
 **1. Length 📏**<br>
-Unitflex provides accurate and versatile length conversion across a wide range of units, from microscopic scales to astronomical distances. This module supports scientific, engineering, daily, and typographic measurements.
-**✅ Supported Unit Categories:**
-- **Metric Units (SI)**<br>Standard international metric system units, including:<br>` picometer (pm) `,` nanometer (nm) `,` micrometer (µm) `,` millimeter (mm) `,` centimeter (cm)`,` decimeter (dm) `,` meter (m) `,` kilometer (km) `, and ` ångström (Å) `.
+Unitflex provides accurate and versatile length conversion across a wide range of units, from microscopic scales to astronomical distances. This module supports scientific, engineering, daily, and typographic measurements.  
+**Supported Unit Categories:**
+- **Metric Units (SI)**<br>Standard international metric system units, including:<br>` picometer (pm) `,` nanometer (nm) `,` micrometer (µm) `,` millimeter (mm) `,` centimeter (cm)`,` decimeter (dm) `,` meter (m) `,` kilometer (km) `,` ångström (Å) `.
 - **Imperial / US Customary Units**<br>Commonly used in the US and UK:<br>` inch (in) `,` foot (ft) `,` yard (yd) `,` mile (mi) `,` nautical mile (nmi) `,` mil/thou `,` league `,` hand `,` barleycorn `. 
 - **Astronomical Units**<br>For measuring vast distances in space:<br>` lightyear (ly) `,` astronomical unit (au) `,` parsec (pc) `.
 - **Engineering Units**<br>Traditional units used in civil engineering and land surveying:<br>` chain `,` link `,` rod `,` pole `,` perch `,` furlong `.
 - **Typographic Units**<br>Used in printing and graphic design:<br>` point (pt) `,` pica `.
 - **Microscopic Units**<br>Extremely small units used in particle physics and microscopy:<br>` femtometer (fm) `,` fermi `.
 
-**2. Mass**<br>
-Units: mg, g, kg, lb, ton, quintal, ounce, oz, st, slug, dram, carat, grain, shortton, longton
+**2.Mass ⚖️**<br>
+Unitflex includes a powerful mass converter that supports a broad spectrum of mass and weight units, from microscopic particles to planetary masses. Designed to accommodate scientific, industrial, and historical uses alike.
+**Supported Unit Categories:**
+- **Metric Units (SI)**<br>Standard international metric system units, including:<br>` milligram (mg) `,` gram (g) `,` kilogram (kg) `,` metric ton (t) `,` quintal `,` ons `.
+- **Imperial / US Customary Units**<br>Commonly used in the US and UK:<br>` ounce (oz) `,` pound (lb) `,` stone (st) `,` slug `,` dram `.
+- **Smaller / Scientific Units**<br>Units used for small-scale mass measurements in jewelry and pharmacology:<br>` carat `,` grain `.
+- **Ton Variants**<br>Regional and system-specific definitions of the ton:<br>` short ton `,` long ton `.
+- **Astronomical Units**<br>Massive units used in astrophysics for celestial body comparisons:<br>` solar mass (M☉) `,` earth mass (M⊕) `,` lunar mass (M☾) `,` jupiter mass (M♃) `,` saturn mass (M♄) `,` venus mass `,` mars mass `,` mercury mass `,` neptune mass `,` uranus mass `,` pluto mass `,` ceres mass `.
+- **Quantum Physics Units**<br>Mass derived from energy equivalents:<br>` electronvolt per c² (eV/c²) `.
+- **Atomic / Microscopic Units**<br>Extremely small mass units used in particle physics and chemistry:<br>` atomic mass unit (amu / Da / u) `,` planck mass `.
+- **Obsolete / Regional Units**<br>Historical or region-specific mass units no longer in widespread use:<br>` bale (cotton/wool/UK/AUS) `,` mark (Germany/Norway) `,` arroba (Spain/Portugal) `.
 
 **3. Temperature (unitflex.temper)**<br>
 Units: celsius, fahrenheit, kelvin, rankine, reaumur<br>
