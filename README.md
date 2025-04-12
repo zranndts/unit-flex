@@ -10,8 +10,9 @@ It even supports a special `"engineering"` mode for precise calculations using `
 
 # Supported Converters 🧪 
 **1. Length 📏**<br>
-unitflex provides accurate and versatile length conversion across a wide range of units—from microscopic scales to astronomical distances. This module supports scientific, engineering, daily, and typographic measurements.<br>**✅ Supported Unit Categories:**
-- **Metric Units (SI)**<br>Standard international metric system units, including:<br>` picometer (pm)`,` nanometer (nm)`,` micrometer (µm) `,` millimeter (mm) `,` centimeter (cm)`,` decimeter (dm) `,` meter (m) `,` kilometer (km) `, and ` ångström (Å) `.
+Unitflex provides accurate and versatile length conversion across a wide range of units, from microscopic scales to astronomical distances. This module supports scientific, engineering, daily, and typographic measurements.
+**✅ Supported Unit Categories:**
+- **Metric Units (SI)**<br>Standard international metric system units, including:<br>` picometer (pm) `,` nanometer (nm) `,` micrometer (µm) `,` millimeter (mm) `,` centimeter (cm)`,` decimeter (dm) `,` meter (m) `,` kilometer (km) `, and ` ångström (Å) `.
 - **Imperial / US Customary Units**<br>Commonly used in the US and UK:<br>` inch (in) `,` foot (ft) `,` yard (yd) `,` mile (mi) `,` nautical mile (nmi) `,` mil/thou `,` league `,` hand `,` barleycorn `. 
 - **Astronomical Units**<br>For measuring vast distances in space:<br>` lightyear (ly) `,` astronomical unit (au) `,` parsec (pc) `.
 - **Engineering Units**<br>Traditional units used in civil engineering and land surveying:<br>` chain `,` link `,` rod `,` pole `,` perch `,` furlong `.
