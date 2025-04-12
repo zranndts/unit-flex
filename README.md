@@ -44,14 +44,13 @@ Unitflex includes a temperature converter that handles all major temperature sca
 Unitflex includes a robust data converter that supports a comprehensive range of digital storage and data rate units. From the tiniest bits to massive exabytes, this converter ensures accurate transformations across binary and decimal systems, ideal for IT, networking, and storage calculations.
 **Supported Units:**
 - **Basic Units**<br>Fundamental digital data measurements:<br>` bit `,` byte `,` nibble `.
-- **Decimal Units (SI Standard)**<br>Commonly used in storage devices and data plans, based on multiples of 1000:<br>` kilobyte (KB) `,` megabyte (MB) `,` gigabyte (GB) `,` terabyte (TB) `,` petabyte (PB) `,` exabyte (EB) `.
-- **Binary Units (IEC Standard)**<br>Used in computing to represent exact binary multiples (base-1024):<br>` kibibyte (KiB) `,` mebibyte (MiB) `,` gibibyte (GiB) `,` tebibyte (TiB) `,` pebibyte (PiB) `,` exbibyte (EiB) `.
-- **Bit-based Units**<br>Used especially for data transfer rates and bandwidth calculations:<br>` kilobit (kb) `,` megabit (Mb) `,` gigabit (Gb) `,` terabit (Tb) `,` petabit (Pb) `,` exabit (Eb) `.
+- **Decimal Units (SI Standard)**<br>Commonly used in storage devices and data plans, based on multiples of 1000:<br>` kilobyte (KB) `,` megabyte (MB) `,` gigabyte (GB) `,` terabyte (TB) `,` petabyte (PB) `,` exabyte (EB) `,` zettabyte(ZB) `,` yottabyte (YB) `.
+- **Binary Units (IEC Standard)**<br>Used in computing to represent exact binary multiples (base-1024):<br>` kibibyte (KiB) `,` mebibyte (MiB) `,` gibibyte (GiB) `,` tebibyte (TiB) `,` pebibyte (PiB) `,` exbibyte (EiB) `,` zebibyte (ZiB)`,` yobibyte (YiB) `.
+- **Bit-based Units**<br>Used especially for data transfer rates and bandwidth calculations:<br>` kilobit (kb) `,` megabit (Mb) `,` gigabit (Gb) `,` terabit (Tb) `,` petabit (Pb) `,` exabit (Eb) `,` zettabit (Zb) `,` Yottabit (Yb) `.
 
 > ⚠️ Case Sensitivity Notice:<br>The data converter in Unitflex is case-sensitive, following standard conventions:
 > - Lowercase b stands for bit (e.g., kb, Mbps)
-> - Uppercase B stands for byte (e.g., KB, MBps)
-> Mixing cases (e.g., Mb vs MB) will yield very different results.
+> - Uppercase B stands for byte (e.g., KB, MBps)<br>Mixing cases (e.g., Mb vs MB) will yield very different results.
 
 **5. Volume (unitflex.vol)**<br>
 Units: ml, cl, dl, l, hl, m3, tsp, tbsp, fl oz, cup, pt, qt, gal, in3, ft3, yd3<br>
@@ -90,7 +89,7 @@ Each convert() function accepts up to six parameters. The first three are requir
 
 - delim (optional)<br> Adds a separator:<br> • True or "default" → comma: 1,000,000<br> • "." → dot: 1.000.000<br> • False → no separator
 > ⚠️ **Note on delim and format="raw**<br>
->  When using format="raw", the output is intended for further calculations. Therefore, even if delim is set to "default" or any custom separator, no separators will be applied — the result will be returned as a clean float, int, or Decimal without formatting.
+>  When using format="raw", the output is intended for further calculations. Therefore, even if delim is set to "default" or any custom separator, no separators will be applied! the result will be returned as a clean float, int, or Decimal without formatting.
 
 - mode (optional, default = "standard")<br> • "standard" → default mode<br> • "engineering" → high-precision mode using decimal.Decimal
 
