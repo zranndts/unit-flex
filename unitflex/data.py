@@ -81,7 +81,33 @@ class dataConverter:
 
         # Exabyte
         "exabyte": "1e12", "exabytes": "1e12", "Exabyte": "1e12", "Exabytes": "1e12",
-        "ebyte": "1e12", "Ebyte": "1e12", "eb": "1e12", "EB": "1e12"
+        "ebyte": "1e12", "Ebyte": "1e12", "eb": "1e12", "EB": "1e12",
+
+        # Zettabit
+        "zettabit": "1.25e14", "zettabits": "1.25e14", "Zettabit": "1.25e14", "Zettabits": "1.25e14",
+        "zbit": "1.25e14", "Zbit": "1.25e14", "zbps": "1.25e14", "Zbps": "1.25e14",
+
+        # Zettabyte
+        "zettabyte": "1e15", "zettabytes": "1e15", "Zettabyte": "1e15", "Zettabytes": "1e15",
+        "zbyte": "1e15", "Zbyte": "1e15", "zb": "1e15", "ZB": "1e15", "ZBps": "1e15",
+
+        # Zebibyte (Binary)
+        "zebibyte": "1.1805916207174113e15", "zebibytes": "1.1805916207174113e15", 
+        "Zebibyte": "1.1805916207174113e15", "Zebibytes": "1.1805916207174113e15",
+        "zib": "1.1805916207174113e15", "ZiB": "1.1805916207174113e15",
+
+        # Yottabit
+        "yottabit": "1.25e17", "yottabits": "1.25e17", "Yottabit": "1.25e17", "Yottabits": "1.25e17",
+        "ybit": "1.25e17", "Ybit": "1.25e17", "ybps": "1.25e17", "Ybps": "1.25e17",
+
+        # Yottabyte
+        "yottabyte": "1e18", "yottabytes": "1e18", "Yottabyte": "1e18", "Yottabytes": "1e18",
+        "ybyte": "1e18", "Ybyte": "1e18", "yb": "1e18", "YB": "1e18", "YBps": "1e18",
+
+        # Yobibyte (Binary)
+        "yobibyte": "1.2089258196146292e18", "yobibytes": "1.2089258196146292e18", 
+        "Yobibyte": "1.2089258196146292e18", "Yobibytes": "1.2089258196146292e18",
+        "yib": "1.2089258196146292e18", "YiB": "1.2089258196146292e18"
     }
 
     @classmethod
