@@ -19,7 +19,7 @@ Unitflex provides accurate and versatile length conversion across a wide range o
 - **Typographic Units**<br>Used in printing and graphic design:<br>` point (pt) `,` pica `.
 - **Microscopic Units**<br>Extremely small units used in particle physics and microscopy:<br>` femtometer (fm) `,` fermi `.
 
-**2.Mass ⚖️**<br>
+**2. Mass ⚖️**<br>
 Unitflex includes a powerful mass converter that supports a broad spectrum of mass and weight units, from microscopic particles to planetary masses. Designed to accommodate scientific, industrial, and historical uses alike.
 **Supported Unit Categories:**
 - **Metric Units (SI)**<br>Standard international metric system units, including:<br>` milligram (mg) `,` gram (g) `,` kilogram (kg) `,` metric ton (t) `,` quintal `,` ons `.
@@ -31,15 +31,27 @@ Unitflex includes a powerful mass converter that supports a broad spectrum of ma
 - **Atomic / Microscopic Units**<br>Extremely small mass units used in particle physics and chemistry:<br>` atomic mass unit (amu / Da / u) `,` planck mass `.
 - **Obsolete / Regional Units**<br>Historical or region-specific mass units no longer in widespread use:<br>` bale (cotton/wool/UK/AUS) `,` mark (Germany/Norway) `,` arroba (Spain/Portugal) `.
 
-**3. Temperature (unitflex.temper)**<br>
-Units: celsius, fahrenheit, kelvin, rankine, reaumur<br>
-Short names: c, f, k, r, re<br>
-Symbols: °c, °f, k, °r, °re
+**3. Temperature (temper) 🌡️**<br>
+Unitflex includes a temperature converter that handles all major temperature scales with high accuracy, including both common and scientific units.
+**Supported Units:**
+- **Celsius (°C)**
+- **Fahrenheit (°F)**
+- **Kelvin (K)**
+- **Réaumur (°Ré / °Re)**
+- **Rankine (°R / °Ra)**
 
-**4. Data (unitflex.data)**<br>
-Units: bit, byte, kilobit, kilobyte, megabit, megabyte, gigabit, gigabyte, terabyte, petabyte<br>
-Bit: b, Kbps, Mbps (lowercase = bits)<br>
-Byte: B, KB, MBps (uppercase = bytes)
+**4. Data 💾**<br>
+Unitflex includes a robust data converter that supports a comprehensive range of digital storage and data rate units. From the tiniest bits to massive exabytes, this converter ensures accurate transformations across binary and decimal systems, ideal for IT, networking, and storage calculations.
+**Supported Units:**
+- **Basic Units**<br>Fundamental digital data measurements:<br>` bit `,` byte `,` nibble `.
+- **Decimal Units (SI Standard)**<br>Commonly used in storage devices and data plans, based on multiples of 1000:<br>` kilobyte (KB) `,` megabyte (MB) `,` gigabyte (GB) `,` terabyte (TB) `,` petabyte (PB) `,` exabyte (EB) `.
+- **Binary Units (IEC Standard)**<br>Used in computing to represent exact binary multiples (base-1024):<br>` kibibyte (KiB) `,` mebibyte (MiB) `,` gibibyte (GiB) `,` tebibyte (TiB) `,` pebibyte (PiB) `,` exbibyte (EiB) `.
+- **Bit-based Units**<br>Used especially for data transfer rates and bandwidth calculations:<br>` kilobit (kb) `,` megabit (Mb) `,` gigabit (Gb) `,` terabit (Tb) `,` petabit (Pb) `,` exabit (Eb) `.
+
+> ⚠️ Case Sensitivity Notice:<br>The data converter in Unitflex is case-sensitive, following standard conventions:
+> - Lowercase b stands for bit (e.g., kb, Mbps)
+> - Uppercase B stands for byte (e.g., KB, MBps)
+> Mixing cases (e.g., Mb vs MB) will yield very different results.
 
 **5. Volume (unitflex.vol)**<br>
 Units: ml, cl, dl, l, hl, m3, tsp, tbsp, fl oz, cup, pt, qt, gal, in3, ft3, yd3<br>
@@ -61,7 +73,6 @@ Based on accurate average durations (e.g., 1 month = 30.44 days)
 > All units support both short and long forms.  
 > The system automatically recognizes and converts them.
 
-<-- There will be many useful converters to come, stay tuned! -->
 ---
 
 # Parameters Explained 🔧
@@ -77,8 +88,9 @@ Each convert() function accepts up to six parameters. The first three are requir
 
 - format (optional, default = "tag")<br> Output style:<br> • "raw" → numeric only (ideal for calculations)<br> • "tag" → number + unit<br> • "verbose" → detailed explanation (e.g. "1 meter = 100 cm")
 
-- delim (optional)<br> Adds a separator:<br> • True or "default" → comma: 1,000,000<br> • "." → dot: 1.000.000<br> • False → no separator<br>⚠️ **Note on delim and format="raw**<br>
-When using format="raw", the output is intended for further calculations. Therefore, even if delim is set to "default" or any custom separator, no separators will be applied — the result will be returned as a clean float, int, or Decimal without formatting.
+- delim (optional)<br> Adds a separator:<br> • True or "default" → comma: 1,000,000<br> • "." → dot: 1.000.000<br> • False → no separator
+> ⚠️ **Note on delim and format="raw**<br>
+>  When using format="raw", the output is intended for further calculations. Therefore, even if delim is set to "default" or any custom separator, no separators will be applied — the result will be returned as a clean float, int, or Decimal without formatting.
 
 - mode (optional, default = "standard")<br> • "standard" → default mode<br> • "engineering" → high-precision mode using decimal.Decimal
 
@@ -94,8 +106,8 @@ When using format="raw", the output is intended for further calculations. Theref
 - Clear error messages for invalid inputs or unsupported units.
 - Easily extendable for custom units in future versions.
 
-⚠️ **Note on Engineering Mode Output:**
-When using `mode="engineering"`, the result is returned as a high-precision `Decimal` object to ensure maximum accuracy.<br>Please note that `Decimal` values cannot be directly operated with `float` or `int` types in Python.
+> ⚠️ **Note on Engineering Mode Output:**
+> When using `mode="engineering"`, the result is returned as a high-precision `Decimal` object to ensure maximum accuracy.<br>Please note that `Decimal` values cannot be directly operated with `float` or `int` types in Python.
 
 If you need to perform mathematical operations with the result, consider casting it manually:
 ```python
