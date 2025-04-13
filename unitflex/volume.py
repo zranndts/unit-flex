@@ -1,7 +1,6 @@
 from decimal import Decimal, getcontext, ROUND_HALF_UP, InvalidOperation
 import warnings
 class volumeConverter:
-
     conversionRates = {
     # Metric Units (SI)
     "nl": "1e-9", "nanoliter": "1e-9", "nanoliters": "1e-9",
@@ -26,9 +25,9 @@ class volumeConverter:
     "pt": "4.73176475e-4", "pint": "4.73176475e-4", "pints": "4.73176475e-4",
     "qt": "9.4635295e-4", "quart": "9.4635295e-4", "quarts": "9.4635295e-4",
     "gal": "3.785411784e-3", "us sgal": "3.785411784e-3", "gallon": "3.785411784e-3", "gallons": "3.785411784e-3",
-    "in3": "1.6387064e-5", "cubic inch": "1.6387064e-5", "cubic inches": "1.6387064e-5",
-    "ft3": "0.028316846592", "cubic foot": "0.028316846592", "cubic feet": "0.028316846592",
-    "yd3": "0.764554857984", "cubic yard": "0.764554857984", "cubic yards": "0.764554857984",
+    "in3": "1.6387064e-5", "in³": "1.6387064e-5", "cubic inch": "1.6387064e-5", "cubic inches": "1.6387064e-5",
+    "ft3": "0.028316846592", "ft³": "0.028316846592", "cubic foot": "0.028316846592", "cubic feet": "0.028316846592",
+    "yd3": "0.764554857984", "yd³": "0.764554857984", "cubic yard": "0.764554857984", "cubic yards": "0.764554857984",
 
     # UK Imperial Units
     "uk gal": "4.54609e-3", "uk-gal": "4.54609e-3", "gal-uk": "4.54609e-3", "imperial gallon": "4.54609e-3", "imperial gallons": "4.54609e-3",
@@ -43,6 +42,9 @@ class volumeConverter:
         fromUnit = fromUnit.lower().strip()
         format = format.lower().strip()
         mode = mode.lower().strip()
+
+        if value < 0:raise ValueError("'Vol` value cant't be negative!")
+        elif value == 0:raise ValueError("'Vol` value can't be zero!")
 
         if fromUnit not in cls.conversionRates:
             raise ValueError(f"From unit '{fromUnit}' not recognized!")

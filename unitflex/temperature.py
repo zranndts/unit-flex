@@ -55,13 +55,19 @@ class temperatureConverter:
                 celsiusValue = Decimal(str(cls.conversionToCelsius[fromUnit](value)))
                 convertedValue = Decimal(str(cls.conversionFromCelsius[toUnit](celsiusValue)))
 
-                if convertedValue == convertedValue.to_integral():
-                    finalValue = convertedValue
+                digits = convertedValue.adjusted() + 1 
+                decimalPlaces = max(prec - digits, 0)
+
+                if decimalPlaces > 0:
+                    try:
+                        quant = Decimal(f"1e-{decimalPlaces}")
+                        finalValue = convertedValue.quantize(quant)
+                    except InvalidOperation:
+                        finalValue = convertedValue.normalize()
                 else:
-                    quant = Decimal(f"1e-{prec}")
-                    finalValue = convertedValue.quantize(quant)
+                    finalValue = convertedValue.to_integral_value(rounding=ROUND_HALF_UP)
             except (InvalidOperation, ValueError):
-                finalValue = convertedValue
+                raise ValueError("Conversion failed due to invalid decimal operation.")
         else:
             celsiusValue = cls.conversionToCelsius[fromUnit](value)
             convertedValue = cls.conversionFromCelsius[toUnit](celsiusValue)

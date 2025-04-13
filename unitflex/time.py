@@ -33,7 +33,7 @@ class timeConverter:
         "score": "631152000", "scores": "631152000",
         "generation": "946728000", "generations": "946728000",
         "century": "3155760000", "centuries": "3155760000",
-        "millennium": "31557600000", "millennia": "31557600000",
+        "millennium": "31557600000", "millennia": "31557600000", "milenium": "31557600000", "millenium": "31557600000",
         "windu": "252460800", "windus": "252460800",
         "lustrum": "157788000", "lustra": "157788000",
     }
@@ -45,11 +45,14 @@ class timeConverter:
         format = format.lower().strip()
         mode = mode.lower().strip()
 
+        if value < 0:raise ValueError("'Time` value cant't be negative!")
+        elif value == 0:raise ValueError("'Time` value can't be zero!")
+
         if fromUnit not in cls.conversionRates:
             raise ValueError(f"From unit '{fromUnit}' not recognized!")
         if toUnit not in cls.conversionRates:
             raise ValueError(f"To unit '{toUnit}' not recognized!")
-
+        
         if prec is None:
             prec = 9 if mode == "engineering" else 2
         elif int(prec) < 0:
@@ -62,7 +65,7 @@ class timeConverter:
 
         if mode not in ("standard", "engineering"):
             raise ValueError("Mode must be either 'standard' or 'engineering'.")
-
+          
         if mode == "standard" and prec > 6:
             warnings.warn("High precision requested in standard mode. Consider using engineering mode for better accuracy.")
 
@@ -98,7 +101,7 @@ class timeConverter:
 
         if isinstance(finalValue, (float, Decimal)) and finalValue == int(finalValue):
             finalValue = int(finalValue)
-
+            
         if format == "raw":
             return finalValue
 
@@ -123,3 +126,48 @@ class timeConverter:
             return f"{value} {fromUnit} = {formattedValue} {toUnit}"
         else:
             raise ValueError("Unexpected format parameter!")
+        
+    @classmethod
+    def flex(cls, value, fromUnit):
+        getcontext().prec = 10
+
+        if value < 0:raise ValueError("'Time` value cant't be negative!")
+        elif value == 0:raise ValueError("'Time` value can't be zero!")
+        
+        validUnits = [
+            "millennium", "millenium", "milenium", "century", "year", "y", "month", "m", "week", "w",
+            "day", "d", "hour", "h", "minute", "m", "second", "s"
+        ]
+
+        try:
+            value = str(value)
+            baseSeconds = Decimal(value) * Decimal(cls.conversionRates[fromUnit])
+        except Exception as e:
+            raise ValueError(f"Invalid input value for conversion: {value!r}") from e
+        except KeyError:
+            raise ValueError(f"Unit '{fromUnit}' not recognized for flex conversion.")
+
+        orderedUnits = []
+        for u in validUnits:
+            for key, rate in cls.conversionRates.items():
+                if key.lower() == u:
+                    orderedUnits.append((u, Decimal(rate)))
+                    break
+
+        result = []
+        remaining = baseSeconds
+
+        for unitName, unitSeconds in orderedUnits:
+            count = remaining // unitSeconds
+            if count > 0:
+                result.append(f"{int(count)} {unitName}{'s' if int(count) != 1 else ''}")
+                remaining -= count * unitSeconds
+
+            if remaining < Decimal("0.0001"):
+                break
+
+        if not result:
+            result.append("0 second")
+
+        return " ".join(result)
+

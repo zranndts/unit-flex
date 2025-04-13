@@ -52,6 +52,9 @@ class lengthConverter:
         format = format.lower().strip()
         mode = mode.lower().strip()
 
+        if value < 0:raise ValueError("'Length` value cant't be negative!")
+        elif value == 0:raise ValueError("'Length` value can't be zero!")
+
         if mode == "standard" and (fromUnit in cls.sensitiveUnits or toUnit in cls.sensitiveUnits):
             warnings.warn(f"Unit '{fromUnit}' or '{toUnit}' is highly sensitive! Consider using engineering mode for better accuracy.")
 

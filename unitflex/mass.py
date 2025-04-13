@@ -41,15 +41,15 @@ class massConverter:
 
         # Atomic / Microscopic Units
         "amu": "1.66053906660e-27", "atomicmassunit": "1.66053906660e-27",
-        "atomic-mass-unit": "1.66053906660e-27", "atomic_mass_unit": "1.66053906660e-27",
+        "atomic-mass-unit": "1.66053906660e-27", "atomic mass unit": "1.66053906660e-27",
         "dalton": "1.66053906660e-27", "Da": "1.66053906660e-27", "u": "1.66053906660e-27",
         "planckmass": "2.176434e-8", "planck-mass": "2.176434e-8",
-        "planck_mass": "2.176434e-8", "m_p": "2.176434e-8",
+        "planck mass": "2.176434e-8", "m_p": "2.176434e-8",
 
         # Quantum Physics Units
-        "ev/c^2": "1.78266192e-36", "ev/c2": "1.78266192e-36", 
+        "ev/c^2": "1.78266192e-36", "ev/c2": "1.78266192e-36", "ev/c²": "1.78266192e-36",
         "electronvoltpercsquared": "1.78266192e-36", "electron-volt-per-c-squared": "1.78266192e-36",
-        "electron_volt_per_c_squared": "1.78266192e-36", "electron volt/c^2": "1.78266192e-36",
+        "electron volt per c squared": "1.78266192e-36", "electron volt/c^2": "1.78266192e-36",
         "electron volt/c2": "1.78266192e-36", "eV/c^2": "1.78266192e-36", "eV/c2": "1.78266192e-36",
 
         # Obsolete / Regional Units
@@ -67,6 +67,9 @@ class massConverter:
         toUnit = toUnit.lower().strip()
         fromUnit = fromUnit.lower().strip()
         format = format.lower().strip()
+
+        if value < 0:raise ValueError("'Mass` value cant't be negative!")
+        elif value == 0:raise ValueError("'Mass` value can't be zero!")
 
         if fromUnit not in cls.conversionRates:
             raise ValueError(f"From unit '{fromUnit}' not recognized!")

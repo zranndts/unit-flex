@@ -81,7 +81,7 @@ class pressureConverter:
         toUnit = normalizePressureUnit(toUnit)
         format = format.lower().strip()
         mode = mode.lower().strip()
-
+        
         if fromUnit == "psia" and toUnit == "psig":
             rawValue = value
             value -= atmPressure
