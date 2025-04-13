@@ -1,10 +1,10 @@
 # What is Unitflex? 📦
 
-**Unitflex** is a Python library for converting values between various measurement units such as **length**, **mass**, **temperature**, **data**, and more.  
-It provides a **clean, extensible**, and **user-friendly** interface to perform conversions easily — with customizable output formatting and **high precision modes** for professional use.
+**Unitflex** is a Python library for converting values between various measurement units such as **length**, **mass**, **volume**, **data**, **pressure** and more.  
+It provides a **clean, extensible**, and **user-friendly** interface to perform conversions easily with customizable output formatting and **high precision modes** for professional use.
 
 Designed to be both **beginner-friendly** and **robust enough for engineers**, Unitflex is suitable for daily tasks, education, and advanced scientific projects.  
-It even supports a special `"engineering"` mode for precise calculations using `decimal.Decimal`.
+It even supports a special `"engineering"` mode for precise calculations using `Decimal`.
 
 ---
 
@@ -49,61 +49,115 @@ Unitflex includes a robust data converter that supports a comprehensive range of
 - **Bit-based Units**<br>Used especially for data transfer rates and bandwidth calculations:<br>` kilobit (kb) `,` megabit (Mb) `,` gigabit (Gb) `,` terabit (Tb) `,` petabit (Pb) `,` exabit (Eb) `,` zettabit (Zb) `,` Yottabit (Yb) `.
 
 > ⚠️ Case Sensitivity Notice:<br>The data converter in Unitflex is case-sensitive, following standard conventions:
-> - Lowercase b stands for bit (e.g., kb, Mbps)
-> - Uppercase B stands for byte (e.g., KB, MBps)<br>Mixing cases (e.g., Mb vs MB) will yield very different results.
+> - Lowercase b stands for bit (e.g., Mb, Gb)
+> - Uppercase B stands for byte (e.g., MB, GB)<br>Mixing cases (e.g., Gb vs GB) will yield very different results.
 
-**5. Volume (unitflex.vol)**<br>
-Units: ml, cl, dl, l, hl, m3, tsp, tbsp, fl oz, cup, pt, qt, gal, in3, ft3, yd3<br>
-Supports both metric and imperial units (short and full names)
+**5. Volume (vol) 💧**<br>
+UnitFlex handles volume conversions across a wide spectrum, from tiny microliters to industrial oil barrels and large cubic yards. This module is ideal for scientific labs, culinary recipes, fluid mechanics, and everyday applications.
+**Supported Units:**
+- **Metric Units (SI)**<br>Standard international units for liquid and volumetric measurement, from nano- to kilometric scale:<br>` nanoliter (nl) `,` microliter (µl / μl) `,` milliliter (ml) `,` centiliter (cl) `,` deciliter (dl) `,` liter (l) `,` dekaliter (dal) `,` hectoliter (hl) `,` cubic millimeter (mm³) `,` cubic centimeter (cm³) `,` cubic decimeter (dm³) `,` cubic meter (m³) `,` cubic kilometer (km³) `.
+- **US Customary Units**<br>Commonly used in American cooking, fluid measurement, and household volume estimations:<br>` teaspoon (tsp) `,` tablespoon (tbsp) `,` fluid ounce (fl oz / floz) `,` cup, pint (pt) `,` quart (qt) `,` gallon (gal) `,` cubic inch (in³) `,` cubic foot (ft³) `,` cubic yard (yd³) `.
+- **UK Imperial Units**<br>Traditional British measurements, mainly used for larger volumes:<br>` imperial gallon (uk gal / uk-gal / gal-uk) `.
+- **Specialized Units**<br>Used in specific industries like oil and gas:<br>` barrel (bbl) `.
 
-**6. Pressure (unitflex.press)**<br>
-Units: pa, kpa, mpa, bar, mbar, psi, atm, mmhg, torr, inhg, hpa, dyne/cm²<br>
-Handles variations like “millibar”, “hectopascal”, etc.
+**6. Pressure (press) 🧯**<br>
+Unitflex supports comprehensive and precise pressure conversions across a wide range of scientific, engineering, meteorological, and industrial units. This module also features support for absolute vs gauge pressure calculations through the ` atmPressure ` parameter, enabling engineering-grade accuracy for systems that require contextual atmospheric pressure input (e.g., ` psia ` vs ` psig `).
+**Supported Unit Categories:**
+- **Metric Units (SI)**<br>Standard pascal-based units:<br>` pascal (Pa) `,` kilopascal (kPa) `,` megapascal (MPa) `,` gigapascal (GPa) `,` hectopascal (hPa) `.
+- **Bar & Millibar Units**<br>Common in meteorology and engineering:<br>` bar `,` millibar (mbar) `.
+- **Atmospheric Pressure**<br>Standard atmospheric references:<br>` atmosphere (atm) `,` technical atmosphere (at) `.
+- **Torr & Mercury Units**<br>Used in vacuum measurements and medicine:<br>` torr `,` mmHg `,` inHg `.
+- **Pounds per Square Inch**<br>Widely used in industrial and automotive fields:<br>` psi `,` psia `,` psig `,` ksi `.
+- **CGS Units**<br>Centimeter-gram-second pressure units:<br>` barye `,` dyne/cm² `.
+- **Force-based Units**<br>Technical and traditional force/area units:<br>` kilogram-force per m² (kgf/m²) `,` kgf/cm²,ton-force per in² (tsi) `,` ton-force per ft² (tsf) `,` ton-force per m² (tf/m²) `.
+- **Pascal Fractions & Multiples**<br>Extreme values supported for scientific calculations:<br>` millipascal (mPa) `,` micropascal (μPa) `,` nanopascal (nPa) `,` picopascal (pPa) `,` terapascal (TPa) `,` exapascal (EPa) `.
 
-**7. Speed (unitflex.speed)**<br>
-Units: m/s, km/h, km/s, mph, knot, ft/s, ft/min, in/s, in/min, cm/s, mm/s, mach<br>
-Flexible recognition of various spellings and capitalizations
+**Special Feature: psia / psig Conversion:**
+This module includes support for converting between ` psia ` (pounds per square inch absolute) and ` psig ` (gauge), using the ` atmPressure ` parameter to specify the local atmospheric pressure.
+``` python
+from unitflex import press
 
-**8. Time (unitflex.time)**<br>
-Units: ns, μs, us, ms, s, min, h, d, wk, mo, yr, decade, century, millennium<br>
-Includes local terms like “quarter”, “semester”, “generation” and more<br>
-Based on accurate average durations (e.g., 1 month = 30.44 days)
+# Convert 24 psig to psia with default atmospheric pressure (14.696 psi)
+result = press.convert(24, "psig", "psia", prec=2, format="verbose", atmPressure=14.696)
+
+# Convert back from psia to psig using custom atmospheric pressure
+result = press.convert(38.7, "psia", "psig", atmPressure=14.7)
+```
+The default atmPressure is set to 14.696 psi, but you can customize this value to match local or experimental conditions for accurate conversions.
+
+
+**7. Speed 🌀**<br> Unitflex includes an extensive speed converter that supports a wide array of velocity units, ranging from everyday measurements like kilometers per hour and miles per hour to scientific constants such as the speed of light. This module is ideal for applications in transportation, physics, engineering, and meteorology.
+**Supported Units:**
+- **Metric Units (SI)**<br>Standard international metric speed units:<br>` millimeter per second (mm/s) `,` centimeter per second (cm/s) `,` meter per second (m/s) `,` kilometer per hour (km/h) `.
+- **Imperial / US Customary Units**<br>Commonly used in the US, UK, and aviation:<br>` feet per second (ft/s) `,` inches per second (in/s) `,` miles per hour (mph) `,` knots (kt) `.
+- **Time Variants**<br>Conversions across different time bases:<br>` millimeter per minute (mm/min) `,` centimeter per minute (cm/min) `,` meter per minute (m/min) `,` inch per minute (in/min) `.
+- **Scientific & Relativistic Units**<br>Units used in high-speed and physics-related applications:<br>` mach (Ma) `,` speed of light (c) `.
+
+**8. Time ⏳**<br>
+The unitflex time module ooffers extensive support for temporal unit conversions, from nanoseconds to millennia. Whether you're handling scientific timestamps, scheduling, calendar math, or historical durations, this module provides high precision, wide unit coverage, and human-readable breakdowns.
+**Supported Units:**
+- **Base Unit**<br>The standard SI base unit of time:<br>` second (s) `.
+- **Subsecond Units**<br>Units for very short time intervals, commonly used in computing and science:<br>` millisecond (ms) `,` microsecond (μs/us) `,` nanosecond (ns) `.
+- **Common Calendar Units**<br>Everyday time units from minutes to months:<br>` minute (min) `,` hour (h) `,` day (d) `,` week (w) `,` month (mo) `,` year (y) `.<br>Based on accurate average durations (e.g., 1 month = 30.44 days, 1 year = 365.25 days)
+- **Expanded Calendar Units**<br>Additional terms based on academic or business periods:<br>` quarter `,` trimester `,` semester `,` bimonth `,` quadmester `.
+- **Extended Historical Units**<br>Used for longer timeframes in demographic, generational, or historical contexts:<br>` decade `,` score `,` generation `,` century `,` millennium `
+- **Cultural / Regional Units**<br>Traditional units used in specific cultures or historical records:<br>windu,lustrum
+
+**Special Feature: Time Duration Breakdown (` flex() `)**: The ` flex() ` function allows you to break down a total duration into its most appropriate time units – from millennia to seconds – in a way that's easier for humans to read and interpret.
+Unlike typical conversions that return a single target unit,` flex() ` recursively decomposes the total time (in any unit) into as many larger units as possible, stopping only when there's no remainder or the result is fully whole.
+``` python
+from unitflex import time
+
+# Break down 123456789 seconds into human-readable time
+print(time.flex(123456789, "second"))
+# Output: "3 years 11 months 1 week 3 days 12 hours 34 minutes 49 seconds"
+
+# Break down 500 days
+print(time.flex(500, "day"))
+# Output: "1 year 4 months 1 week 5 days"
+
+# Works directly with converted values
+print(time.flex(time.convert(1, "century", "day", format="raw"), "day"))
+# Output: "1 century"
+```
+The ` flex() ` function is currently implemented for time, but the mechanism is designed to be extended to other domains (e.g., length, weight and data) that may benefit from breakdown representation.
 
 > All units support both short and long forms.  
 > The system automatically recognizes and converts them.
 
 ---
 
-# Parameters Explained 🔧
+# Convert Function Parameters Explained 🔧
 Each convert() function accepts up to six parameters. The first three are required, the rest are optional for customizing the output.
 
-- value (required)<br> The numeric value to convert (int or float)<br> Example: 100, 3.14
+- **value (required)**<br>The numeric value to convert (int or float)<br>` Example: 100, 3.14 `.
 
-- fromUnit (required)<br> The original unit (short, long name, or symbol)<br> Example: cm, meter, °f
+- **fromUnit (required)**<br>The original unit (short, long name, or symbol)<br>` Example: cm, meter, °f `.
 
-- toUnit (required)<br> The target unit (same format options as fromUnit)<br> Example: km, yard, kelvin
+- **toUnit (required)**<br>The target unit (same format options as fromUnit)<br>` Example: km, yard, kelvin `.
 
-- precision (optional, default = 2)<br> Number of decimal digits in the result<br> Example: precision=3 → 12.345
+- **prec (optional, default = 2 in standard mode and default = 9 in engineering mode)**<br>Number of decimal digits in the result<br>` Example: precision=3 → 12.345 `.
 
-- format (optional, default = "tag")<br> Output style:<br> • "raw" → numeric only (ideal for calculations)<br> • "tag" → number + unit<br> • "verbose" → detailed explanation (e.g. "1 meter = 100 cm")
+- **format (optional, default = "tag")**<br> Output style:<br>` "raw" → numeric only (ideal for calculations) `<br>` "tag" → number + unit `<br>` verbose" → full expression (e.g. "1 meter = 100 cm")`.
 
-- delim (optional)<br> Adds a separator:<br> • True or "default" → comma: 1,000,000<br> • "." → dot: 1.000.000<br> • False → no separator
+- **delim (optional)**<br> Adds a separator:<br>` default" or True → comma: 1,000,000 `<br>` "." → custom separator: 1.000.000 `<br>` False → no separator `.
 > ⚠️ **Note on delim and format="raw**<br>
 >  When using format="raw", the output is intended for further calculations. Therefore, even if delim is set to "default" or any custom separator, no separators will be applied! the result will be returned as a clean float, int, or Decimal without formatting.
 
-- mode (optional, default = "standard")<br> • "standard" → default mode<br> • "engineering" → high-precision mode using decimal.Decimal
+- **mode (optional, default = "standard")**<br>` "standard" → default mode `<br>` "engineering" → high-precision mode using decimal.Decimal `.
 
 ---
 
 # Notes 📌
-- Units are case-insensitive. (Exception: data and speed units where b ≠ B, and formatting like m/s matters.)
-- Flexible unit names. For example: "kg", "kilogram", "Kilograms" are all valid and automatically recognized.
-- Smart rounding system ensures accurate output and avoids losing significance. Whole number results are automatically simplified.
-- Delimiters improve large number readability (e.g., 1_000_000 or 1,000,000).
-- Supports multiple output formats: raw number, tagged result (value + unit), or full verbose expression.
-- Highly precise with engineering mode — ideal for technical/scientific usage.
-- Clear error messages for invalid inputs or unsupported units.
-- Easily extendable for custom units in future versions.
+- **Units are case-insensitive**, except for data storage units where` b `(bit) and` B `(byte) are different.
+- **Input units must be unambiguous.** Avoid combining incompatible units or using unclear abbreviations.
+- **Scientific and engineering accuracy:** Use ` mode="engineering" ` for precision-critical conversions (uses` decimal.Decimal `internally).
+- **Highly precise with engineering mode using decimal, ideal for technical/scientific usage.**
+- **Flexible unit names are supported** (e.g., "kg", "kilograms", "Kilogram"), but spelling mistakes won't be recognized.
+- **Supports multiple output formats:** raw number, tag result (value + unit), or full verbose expression.
+- **Output is rounded smartly by default**, you can override this behavior by setting prec or switching modes.
+- **Some unit types require extra parameters** (e.g., pressure conversions from psig to psia need` atmPressure `defined).
+- **Delimiters (like commas) are applied to large numbers** for easier readability unless raw mode is requested.
 
 > ⚠️ **Note on Engineering Mode Output:**
 > When using `mode="engineering"`, the result is returned as a high-precision `Decimal` object to ensure maximum accuracy.<br>Please note that `Decimal` values cannot be directly operated with `float` or `int` types in Python.
@@ -122,14 +176,16 @@ After the installation with `pip install unitflex`, you can import and use this 
 from unitflex import length, speed, time
  # Convert 12 mach to km/h
 a = speed.convert(12, "mach", "km/h")
+
 # Convert 18 years to seconds using delim, prec and format paramaters
-b = time.convert(18, "year", "second", delim="default", prec=2, format="tag")
- # Converting 12.0504 nanometers to centimeters using `engineering mode` to obtain a highly accurate result — ideal for outputs with many decimal places. 
+b = time.convert(18.5, "year", "second", delim="default", prec=3, format="tag")
+
+# Converting 12.0504 nanometers to centimeters using `engineering mode` to obtain a highly accurate result
 c = length.convert(12.0504, "nm", "cm", format="raw", prec=12, mode="engineering")
 ```
 
-The folder structure of this project is organized for clarity and scalability. The main package, `unitflex`, contains individual modules for each category of conversion (such as `length.py`, `mass.py`, `data.py` and `temperature.py`). In addition, there are directories for usage examples and test scripts, which help demonstrate the library's capabilities and ensure consistent performance through future updates.
+The folder structure of this project is organized for clarity and scalability. The main package, `unitflex`, contains individual modules for each category of conversion (such as `length.py`, `mass.py`, `data.py`, `temperature.py and other modules unit`). In addition, there are directories for usage examples and test scripts, which help demonstrate the library's capabilities and ensure consistent performance through future updates.
 
-Upcoming features planned for unitflex include conversion of area, volume, time or even conversion with scientific units such as electric current, thermodynamic, amount of substance, luminous intensity, frequency, and more. While external contributions are currently limited as the library is in its early development stage, feedback and suggestions are more than welcome and encouraged.
+Upcoming features planned for unitflex include conversion of area, currency or even conversion with scientific units such as electricity, energy, power, force luminous intensity, frequency, and more. While external contributions are currently limited as the library is in its early development stage, feedback and suggestions are more than welcome and encouraged.
 
 Unitflex is released under the MIT License, which allows you to freely use, modify, and distribute the library as long as the original license is included. For more information about usage, structure, and licensing, please refer to the LICENSE file included in this repository. 
