@@ -20,4 +20,3 @@ print(data.convert(1, "GiB", "MiB", format="verbose", prec=0))                  
 
 # Engineering mode – very high precision
 print(data.convert(1.21, "exabyte", "megabyte", prec="30", mode="engineering"))   # Output: 1.21 exabyte = 1210000000.0000000000000000000000000000 megabyte
-

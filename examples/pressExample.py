@@ -17,3 +17,11 @@ print(press.convert(1000, "kpa", "mpa", prec="2", format="verbose", delim=".")) 
 # Engineering Mode
 result = press.convert(1.0052, "psi", "mpa", prec="12", mode="engineering", format="verbose")
 print(result)
+
+# Convert psia to psig (default atmPressure = 14.696) 
+gauge = press.convert(12, "psia", "psig")
+print(gauge)
+
+# Convert psig to psia using custom atmPressure
+conv = press.convert(12, "psig", "psia", atmPressure=15.696)
+print(conv)

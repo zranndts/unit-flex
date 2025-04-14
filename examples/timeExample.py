@@ -17,3 +17,9 @@ print(time.convert(1000, "min", "h", prec="2", format="verbose", delim="."))    
 # Engineering Mode
 result = time.convert(1.0052, "decade", "y", prec="10", mode="engineering", format="verbose")
 print(result)
+
+# flex function
+print(time.flex(1.4234924, "year"))
+
+# combine convert and flex function
+print(time.flex(time.convert(2.231221321, "millenium", "century", mode="engineering", format="raw"), "century"))
