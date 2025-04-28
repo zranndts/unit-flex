@@ -7,8 +7,8 @@ from .pressure import pressureConverter as pressure
 from .speed import speedConverter as speed
 from .time import timeConverter as time
 
-__version__ = "0.9.0"
+__version__ = "0.9.2"
 __author__ = "Zahraan Dzakii"
 __license__ = "MIT"
-__description__ = "A flexible Python library for unit conversion."
+__description__ = "An Accurate and Flexible Unit Converter Library."
 __repository__ = "https://github.com/zranndts/unitflex"

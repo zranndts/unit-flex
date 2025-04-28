@@ -2,10 +2,10 @@ from setuptools import setup, find_packages
 
 setup(
     name="unitflex",
-    version="0.9.0",  
+    version="0.9.2",  
     author="zranndts",
     author_email="vleaxorzz@gmail.com",
-    description="Unit Converter Library",
+    description="An Accurate and Flexible Unit Converter Library.",
     long_description=open("README.md", "r", encoding="utf-8").read(),
     long_description_content_type="text/markdown",
     url="https://github.com/zranndts/unitflex",
