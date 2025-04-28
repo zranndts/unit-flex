@@ -1,4 +1,5 @@
 from decimal import Decimal, getcontext, ROUND_HALF_UP, InvalidOperation
+from unitflex.utils import debugLog
 import warnings
 class dataConverter:
     conversionRates  = {
@@ -114,19 +115,24 @@ class dataConverter:
     def convert(cls, value, fromUnit, toUnit, *, prec=None, format="tag", delim=False, mode="standard"):
         format = format.lower().strip()
         mode = mode.lower().strip()
+        debugLog(f"[convert] Started 'Data' conversion: {value} {fromUnit} to {toUnit}")
 
-        if value < 0:raise ValueError("'Data` value cant't be negative!")
-        elif value == 0: raise ValueError("'Data` can't be zero!")
+        if value < 0:
+            debugLog(f"[convert] Error: value is negative! '{value}'")
+            raise ValueError("'Data' value cant't be negative!")
+        elif value == 0:
+            debugLog(f"[convert] Error: value is zero! '{value}'")
+            raise ValueError("'Data' value can't be zero!")
 
         if fromUnit not in cls.conversionRates:
+            debugLog(f"[convert] Error: From unit '{fromUnit}' not recognized!")
             raise ValueError(f"From unit '{fromUnit}' not recognized!")
         if toUnit not in cls.conversionRates:
+            debugLog(f"[convert] Error: From unit '{toUnit}' not recognized!")
             raise ValueError(f"To unit '{toUnit}' not recognized!")
 
-        if prec is None:
-            prec = 9 if mode == "engineering" else 2
-        elif int(prec) < 0:
-            raise ValueError("Precision can't be negative!")
+        if prec is None: prec = 9 if mode == "engineering" else 2
+        elif int(prec) < 0: raise ValueError("Precision can't be negative!")
         else:
             try:
                 prec = int(prec)
@@ -134,12 +140,15 @@ class dataConverter:
                 raise ValueError("Precision must be a Number!")
 
         if mode not in ("standard", "engineering"):
+            debugLog(f"[convert] Error: mode='{mode}' is not recognized!")
             raise ValueError("Mode must be either 'standard' or 'engineering'.")
+        debugLog(f"[convert] Parsed prec={prec}, mode={mode}")
 
         if mode == "standard" and prec > 6:
             warnings.warn("High precision requested in standard mode. Consider using engineering mode for better accuracy.")
 
         if mode == "engineering":
+            debugLog(f"[convert] Engineering mode activated")
             getcontext().prec = prec + 5
             getcontext().rounding = ROUND_HALF_UP
 
@@ -151,28 +160,39 @@ class dataConverter:
                 defaultValue = value * fromFactor
                 convertedValue = defaultValue / toFactor
 
-                digits = convertedValue.adjusted() + 1 
-                decimalPlaces = max(prec - digits, 0)
+                debugLog(f"[convert] Engineering mode: raw result={convertedValue}")
 
-                if decimalPlaces > 0:
+                digits = convertedValue.adjusted() + 1
+                decimalPlaces = prec - digits
+
+                if decimalPlaces >= 0 and decimalPlaces <= 50:
                     try:
                         quant = Decimal(f"1e-{decimalPlaces}")
-                        finalValue = convertedValue.quantize(quant)
-                    except InvalidOperation:
+                        finalValue = convertedValue.quantize(quant, rounding=ROUND_HALF_UP)
+                    except (InvalidOperation, ValueError) as e:
+                        debugLog(f"[convert] Quantize fallback triggered: {e}")
                         finalValue = convertedValue.normalize()
                 else:
-                    finalValue = convertedValue.to_integral_value(rounding=ROUND_HALF_UP)
-            except (InvalidOperation, ValueError):
+                    debugLog(f"[convert] Skipping quantize due to extreme decimalPlaces={decimalPlaces}")
+                    finalValue = convertedValue.normalize()
+
+                debugLog(f"[convert] Final output: {finalValue}")
+            except (InvalidOperation, ValueError) as e:
+                debugLog(f"[convert] Decimal error: {e}")
                 raise ValueError("Conversion failed due to invalid decimal operation.")
+
+
         else:
             defaultValue = float(value) * float(cls.conversionRates[fromUnit])
             convertedValue = defaultValue / float(cls.conversionRates[toUnit])
             finalValue = round(convertedValue, prec)
+            debugLog(f"[convert] Standard mode: result={finalValue}")
 
         if isinstance(finalValue, (float, Decimal)) and finalValue == int(finalValue):
             finalValue = int(finalValue)
 
         if format == "raw":
+            debugLog(f"[convert] Final output: {finalValue}")
             return finalValue
 
         separator = None
@@ -191,8 +211,10 @@ class dataConverter:
             formattedValue = formattedValue.replace(",", separator)
 
         if format == "tag":
-            return f"{formattedValue} {toUnit}"
+            result = f"{formattedValue} {toUnit}"
         elif format == "verbose":
-            return f"{value} {fromUnit} = {formattedValue} {toUnit}"
+            result = f"{value} {fromUnit} = {formattedValue} {toUnit}"
         else:
             raise ValueError("Unexpected format parameter!")
+        debugLog(f"[convert] Final output: {result}")
+        return result

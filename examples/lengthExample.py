@@ -1,8 +1,4 @@
-import sys
-import os
-sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
-# -- IGNORE THAT --
-
+import unitflex as uf
 from unitflex import length
 
 # Convert 1000000 micrometers to meters
@@ -17,3 +13,5 @@ print(length.convert(2.5, "km", "mile", prec="4", format="verbose", delim=".")) 
 # Engineering Mode - high precision
 result = length.convert(12.3200912, "nm", "m", prec="17", mode="engineering", format="verbose")
 print(result)
+
+print(f"\nUnitflex version: {uf.__version__}")

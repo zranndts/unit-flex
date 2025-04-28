@@ -1,4 +1,5 @@
 from decimal import Decimal, getcontext, ROUND_HALF_UP, InvalidOperation
+from unitflex.utils import debugLog
 import warnings
 class temperatureConverter:
     conversionToCelsius = {
@@ -24,10 +25,13 @@ class temperatureConverter:
         fromUnit = fromUnit.lower()
         toUnit = toUnit.lower()
         mode = mode.lower()
+        debugLog(f"[convert] Started 'Temperature' conversion: {value} {fromUnit} to {toUnit}")
 
         if fromUnit not in cls.conversionToCelsius:
+            debugLog(f"[convert] Error: From unit '{fromUnit}' not recognized!")
             raise ValueError(f"From unit '{fromUnit}' not recognized!")
         if toUnit not in cls.conversionFromCelsius:
+            debugLog(f"[convert] Error: From unit '{fromUnit}' not recognized!")
             raise ValueError(f"To unit '{toUnit}' not recognized!")
 
         if prec is None:
@@ -41,12 +45,15 @@ class temperatureConverter:
                 raise ValueError("Precision must be a Number!")
 
         if mode not in ("standard", "engineering"):
+            debugLog(f"[convert] Error: mode='{mode}' is not recognized!")
             raise ValueError("Mode must be either 'standard' or 'engineering'.")
+        debugLog(f"[convert] Parsed prec={prec}, mode={mode}")
 
         if mode == "standard" and prec > 6:
             warnings.warn("High precision requested in standard mode. Consider using engineering mode for better accuracy.")
 
         if mode == "engineering":
+            debugLog(f"[convert] Engineering mode activated")
             getcontext().prec = prec + 5
             getcontext().rounding = ROUND_HALF_UP
 
@@ -55,18 +62,23 @@ class temperatureConverter:
                 celsiusValue = Decimal(str(cls.conversionToCelsius[fromUnit](value)))
                 convertedValue = Decimal(str(cls.conversionFromCelsius[toUnit](celsiusValue)))
 
-                digits = convertedValue.adjusted() + 1 
-                decimalPlaces = max(prec - digits, 0)
+                digits = convertedValue.adjusted() + 1
+                decimalPlaces = prec - digits
 
-                if decimalPlaces > 0:
+                if decimalPlaces >= 0 and decimalPlaces <= 50:
                     try:
                         quant = Decimal(f"1e-{decimalPlaces}")
-                        finalValue = convertedValue.quantize(quant)
-                    except InvalidOperation:
+                        finalValue = convertedValue.quantize(quant, rounding=ROUND_HALF_UP)
+                    except (InvalidOperation, ValueError) as e:
+                        debugLog(f"[convert] Quantize fallback triggered: {e}")
                         finalValue = convertedValue.normalize()
                 else:
-                    finalValue = convertedValue.to_integral_value(rounding=ROUND_HALF_UP)
-            except (InvalidOperation, ValueError):
+                    debugLog(f"[convert] Skipping quantize due to extreme decimalPlaces={decimalPlaces}")
+                    finalValue = convertedValue.normalize()
+
+                debugLog(f"[convert] Final output: {finalValue}")
+            except (InvalidOperation, ValueError) as e:
+                debugLog(f"[convert] Decimal error: {e}")
                 raise ValueError("Conversion failed due to invalid decimal operation.")
         else:
             celsiusValue = cls.conversionToCelsius[fromUnit](value)

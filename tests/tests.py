@@ -1,8 +1,14 @@
-import sys
-import os
-sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
-
-from unitflex import length, mass, temper, data, vol, press, speed, time
+from unitflex import (
+    volume as vol,
+    pressure as press,
+    temperature as temp, 
+    length,
+    mass,
+    data, 
+    speed, 
+    time
+)
+import unitflex as uf
 
 print("\n------ Length\n")
 
@@ -79,21 +85,21 @@ print(mass.convert(1, "solarmass", "earthmass", format="verbose", mode="engineer
 print("\n------ Temper\n")
 
 # Temperature Test
-print(temper.convert(1000, fromUnit="c", toUnit="f", prec=2, format="verbose", delim=","))
-print(temper.convert(36, "c", "f", prec=2, format="verbose"))
-print(temper.convert(12, "f", "k", prec=2, format="tag"))
-print(temper.convert(128, "K", "C", prec=2, format="tag"))
-print(temper.convert(128, "Kelvin", "celcius", prec=2, format="tag", delim=","))
-print(temper.convert(128, "°r", "°c", prec=2, format="verbose"))
-print(temper.convert(38, "c", "re", prec=2, format="verbose"))
-print(temper.convert(38, "r", "re", prec=2, format="raw"))
-re = temper.convert(38, "r", "re", prec=2, format="raw")
-print(temper.convert(380, "c", "re", prec=2, format="raw"))
-re2 = temper.convert(380, "c", "re", prec=2, format="raw")
+print(temp.convert(1000, fromUnit="c", toUnit="f", prec=2, format="verbose", delim=","))
+print(temp.convert(36, "c", "f", prec=2, format="verbose"))
+print(temp.convert(12, "f", "k", prec=2, format="tag"))
+print(temp.convert(128, "K", "C", prec=2, format="tag"))
+print(temp.convert(128, "Kelvin", "celcius", prec=2, format="tag", delim=","))
+print(temp.convert(128, "°r", "°c", prec=2, format="verbose"))
+print(temp.convert(38, "c", "re", prec=2, format="verbose"))
+print(temp.convert(38, "r", "re", prec=2, format="raw"))
+re = temp.convert(38, "r", "re", prec=2, format="raw")
+print(temp.convert(380, "c", "re", prec=2, format="raw"))
+re2 = temp.convert(380, "c", "re", prec=2, format="raw")
 print(re - re2)
-print(temper.convert(38, "r", "f", prec=2, format="verbose"))
-print(temper.convert(666.1234567898, "celcius", "fahrenheit", prec=7, format="verbose", delim=",", mode="engineering"))
-print(temper.convert(36, "c", "k", prec=2))
+print(temp.convert(38, "r", "f", prec=2, format="verbose"))
+print(temp.convert(666.1234567898, "celcius", "fahrenheit", prec=7, format="verbose", delim=",", mode="engineering"))
+print(temp.convert(36, "c", "k", prec=2))
 
 print("\n------ Data\n")
 
@@ -190,6 +196,8 @@ print(time.convert(1, "decade", "yr", prec=0))
 print(time.convert(2, "century", "windu", prec=2))
 print(time.convert(1, "millennium", "year", prec=0))
 print(time.convert(12.31123, "year", "second", prec=0, delim="default"))
+print(time.convert(1, "s", "ms"))
+
 # Using .flex()
 print(time.flex(500, "day"))
 print(time.flex(1.231231312, "millenium"))
@@ -197,3 +205,9 @@ print(time.flex(1.521, "century"))
 print(time.flex(1000, "day"))
 print(time.flex(13.7516, "hour")) 
 print(time.flex((time.convert(1.21231, "century", "day", format="raw")), "day"))
+
+print(uf.__version__)
+print(uf.__author__)
+print(uf.__repository__)
+print(uf.__license__)
+print(uf.__doc__)

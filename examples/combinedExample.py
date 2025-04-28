@@ -1,8 +1,4 @@
-import sys
-import os
-sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
-# -- IGNORE THAT --
-
+import unitflex as uf
 from unitflex import (
     length,
     mass,
@@ -49,3 +45,5 @@ print(time.convert(1, "day", "second", format="verbose", prec=0))
 # Engineering mode example (high precision)
 print(mass.convert(1.23456789, "kilogram", "gram", prec="25", mode="engineering"))  
 # Output: 1.23456789 kilogram = 1234.5678900000000000000000000 gram
+
+print(f"\nUnitflex version: {uf.__version__}")

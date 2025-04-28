@@ -1,8 +1,4 @@
-import sys
-import os
-sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
-# -- IGNORE THAT --
-
+import unitflex as uf
 from unitflex import mass
 
 # Convert 1500 grams to pounds, menggunakan tag dan raw output
@@ -17,3 +13,5 @@ print(mass.convert(5, "kg", "stone", prec="3", format="verbose", delim="."))    
 # Engineering Mode - extremely high precision
 result = mass.convert(5.001232123, "mg", "ons", prec="16", mode="engineering", format="verbose")
 print(result)
+
+print(f"\nUnitflex version: {uf.__version__}")

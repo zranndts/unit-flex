@@ -1,4 +1,5 @@
 from decimal import Decimal, getcontext, ROUND_HALF_UP, InvalidOperation
+from unitflex.utils import debugLog
 import warnings
 class massConverter:
     conversionRates = {
@@ -11,10 +12,10 @@ class massConverter:
         "ons": "0.1", "ons-nl": "0.1",
 
         # Imperial/US Units
-        "oz": "0.0283495", "ounce": "0.0283495", "ounces": "0.0283495",
+        "oz": "0.028349523125", "ounce": "0.028349523125", "ounces": "0.028349523125",
         "lb": "0.45359237", "pound": "0.45359237", "pounds": "0.45359237",
         "st": "6.35029318", "stone": "6.35029318", "stones": "6.35029318",
-        "slug": "14.5939",
+        "slug": "14.593903",
         "dram": "0.0017718451953125", "dr": "0.0017718451953125", "drams": "0.0017718451953125",
 
         # Smaller/Scientific Units
@@ -26,18 +27,18 @@ class massConverter:
         "longton": "1016.0469088",
 
         # Astronomical Units
-        "solarmass": "1.98847e30", "solar-mass": "1.98847e30", "M☉": "1.98847e30",
-        "earthmass": "5.9722e24", "earth-mass": "5.9722e24", "M⊕": "5.9722e24",
+        "solarmass": "1.988409870698051e30", "solar-mass": "1.988409870698051e30", "M☉": "1.988409870698051e30",
+        "earthmass": "5.972168e24", "earth-mass": "5.972168e24", "M⊕": "5.972168e24",
         "lunarmass": "7.342e22", "lunar-mass": "7.342e22", "M☾": "7.342e22",
-        "jupitermass": "1.898e27", "jupiter-mass": "1.898e27", "Mj": "1.898e27", "M♃": "1.898e27",
-        "saturnmass": "5.683e26", "saturn-mass": "5.683e26", "Msat": "5.683e26", "M♄": "5.683e26",
-        "uranusmass": "8.681e25", "uranus-mass": "8.681e25", "Mura": "8.681e25",
-        "neptunemass": "1.024e26", "neptune-mass": "1.024e26", "Mnep": "1.024e26",
-        "venusmass": "4.867e24", "venus-mass": "4.867e24", "Mven": "4.867e24",
-        "marsmass": "6.417e23", "mars-mass": "6.417e23", "Mmars": "6.417e23",
-        "mercurymass": "3.301e23", "mercury-mass": "3.301e23", "Mmer": "3.301e23",
-        "plutomass": "1.309e22", "pluto-mass": "1.309e22", "Mplu": "1.309e22",
-        "ceresmass": "9.39e20", "ceres-mass": "9.39e20", "Mcer": "9.39e20",
+        "jupitermass": "1.89813e27", "jupiter-mass": "1.89813e27", "Mj": "1.89813e27", "M♃": "1.89813e27",
+        "saturnmass": "5.6834e26", "saturn-mass": "5.6834e26", "Msat": "5.6834e26", "M♄": "5.6834e26",
+        "uranusmass": "8.6810e25", "uranus-mass": "8.6810e25", "Mura": "8.6810e25",
+        "neptunemass": "1.02413e26", "neptune-mass": "1.02413e26", "Mnep": "1.02413e26",
+        "venusmass": "4.8675e24", "venus-mass": "4.8675e24", "Mven": "4.8675e24",
+        "marsmass": "6.4171e23", "mars-mass": "6.4171e23", "Mmars": "6.4171e23",
+        "mercurymass": "3.3011e23", "mercury-mass": "3.3011e23", "Mmer": "3.3011e23",
+        "plutomass": "1.303e22", "pluto-mass": "1.303e22", "Mplu": "1.303e22",
+        "ceresmass": "9.393e20", "ceres-mass": "9.393e20", "Mcer": "9.393e20",
 
         # Atomic / Microscopic Units
         "amu": "1.66053906660e-27", "atomicmassunit": "1.66053906660e-27",
@@ -67,19 +68,24 @@ class massConverter:
         toUnit = toUnit.lower().strip()
         fromUnit = fromUnit.lower().strip()
         format = format.lower().strip()
+        debugLog(f"[convert] Started 'Mass' conversion: {value} {fromUnit} to {toUnit}")
 
-        if value < 0:raise ValueError("'Mass` value cant't be negative!")
-        elif value == 0:raise ValueError("'Mass` value can't be zero!")
+        if value < 0:
+            debugLog(f"[convert] Error: value is negative! '{value}'")
+            raise ValueError("'Mass' value cant't be negative!")
+        elif value == 0:
+            debugLog(f"[convert] Error: value is zero! '{value}'")
+            raise ValueError("'Mass' value can't be zero!")
 
         if fromUnit not in cls.conversionRates:
+            debugLog(f"[convert] Error: From unit '{fromUnit}' not recognized!")
             raise ValueError(f"From unit '{fromUnit}' not recognized!")
         if toUnit not in cls.conversionRates:
+            debugLog(f"[convert] Error: From unit '{toUnit}' not recognized!")
             raise ValueError(f"To unit '{toUnit}' not recognized!")
 
-        if prec is None:
-            prec = 9 if mode == "engineering" else 2
-        elif int(prec) < 0:
-            raise ValueError("Precision can't be negative!")
+        if prec is None: prec = 9 if mode == "engineering" else 2
+        elif int(prec) < 0: raise ValueError("Precision can't be negative!")
         else:
             try:
                 prec = int(prec)
@@ -87,12 +93,15 @@ class massConverter:
                 raise ValueError("Precision must be a Number!")
 
         if mode not in ("standard", "engineering"):
+            debugLog(f"[convert] Error: mode='{mode}' is not recognized!")
             raise ValueError("Mode must be either 'standard' or 'engineering'.")
+        debugLog(f"[convert] Parsed prec={prec}, mode={mode}")
 
         if mode == "standard" and prec > 6:
             warnings.warn("High precision requested in standard mode. Consider using engineering mode for better accuracy.")
 
         if mode == "engineering":
+            debugLog(f"[convert] Engineering mode activated")
             getcontext().prec = prec + 5
             getcontext().rounding = ROUND_HALF_UP
 
@@ -104,28 +113,39 @@ class massConverter:
                 defaultValue = value * fromFactor
                 convertedValue = defaultValue / toFactor
 
-                digits = convertedValue.adjusted() + 1 
-                decimalPlaces = max(prec - digits, 0)
+                debugLog(f"[convert] Engineering mode: raw result={convertedValue}")
 
-                if decimalPlaces > 0:
+                digits = convertedValue.adjusted() + 1
+                decimalPlaces = prec - digits
+
+                if decimalPlaces >= 0 and decimalPlaces <= 50:
                     try:
                         quant = Decimal(f"1e-{decimalPlaces}")
-                        finalValue = convertedValue.quantize(quant)
-                    except InvalidOperation:
+                        finalValue = convertedValue.quantize(quant, rounding=ROUND_HALF_UP)
+                    except (InvalidOperation, ValueError) as e:
+                        debugLog(f"[convert] Quantize fallback triggered: {e}")
                         finalValue = convertedValue.normalize()
                 else:
-                    finalValue = convertedValue.to_integral_value(rounding=ROUND_HALF_UP)
-            except (InvalidOperation, ValueError):
+                    debugLog(f"[convert] Skipping quantize due to extreme decimalPlaces={decimalPlaces}")
+                    finalValue = convertedValue.normalize()
+
+                debugLog(f"[convert] Final output: {finalValue}")
+            except (InvalidOperation, ValueError) as e:
+                debugLog(f"[convert] Decimal error: {e}")
                 raise ValueError("Conversion failed due to invalid decimal operation.")
+
+
         else:
             defaultValue = float(value) * float(cls.conversionRates[fromUnit])
             convertedValue = defaultValue / float(cls.conversionRates[toUnit])
             finalValue = round(convertedValue, prec)
+            debugLog(f"[convert] Standard mode: result={finalValue}")
 
         if isinstance(finalValue, (float, Decimal)) and finalValue == int(finalValue):
             finalValue = int(finalValue)
 
         if format == "raw":
+            debugLog(f"[convert] Final output: {finalValue}")
             return finalValue
 
         separator = None
@@ -144,8 +164,10 @@ class massConverter:
             formattedValue = formattedValue.replace(",", separator)
 
         if format == "tag":
-            return f"{formattedValue} {toUnit}"
+            result = f"{formattedValue} {toUnit}"
         elif format == "verbose":
-            return f"{value} {fromUnit} = {formattedValue} {toUnit}"
+            result = f"{value} {fromUnit} = {formattedValue} {toUnit}"
         else:
             raise ValueError("Unexpected format parameter!")
+        debugLog(f"[convert] Final output: {result}")
+        return result

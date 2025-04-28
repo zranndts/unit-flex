@@ -1,8 +1,4 @@
-import sys
-import os
-sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
-# -- IGNORE THAT --
-
+import unitflex as uf
 from unitflex import data
 
 # Basic conversion
@@ -19,4 +15,7 @@ print(data.convert(3.5, "GB", "MB", format="verbose", prec=4, delim="."))       
 print(data.convert(1, "GiB", "MiB", format="verbose", prec=0))                    # Output: 1 GiB = 1024 MiB
 
 # Engineering mode – very high precision
-print(data.convert(1.21, "exabyte", "megabyte", prec="30", mode="engineering"))   # Output: 1.21 exabyte = 1210000000.0000000000000000000000000000 megabyte
+print(data.convert(1.21, "exabyte", "megabyte", prec="30", mode="engineering"))  
+# Output: 1.21 exabyte = 1210000000.0000000000000000000000000000 megabyte
+
+print(f"\nUnitflex version: {uf.__version__}")

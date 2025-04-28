@@ -1,8 +1,4 @@
-import sys
-import os
-sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
-# -- IGNORE THAT --
-
+import unitflex as uf
 from unitflex import vol
 
 # Convert 2.65 gallons to milliliters with tag output
@@ -18,3 +14,5 @@ print(vol.convert(200, "ml", "tbsp", prec=2, format="verbose", delim="default"))
 # Engineering Mode
 result = vol.convert(0.9982123, "ml", "m3", prec="10", mode="engineering", format="verbose")
 print(result)
+
+print(f"\nUnitflex version: {uf.__version__}")

@@ -1,8 +1,4 @@
-import sys
-import os
-sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
-# -- IGNORE THAT --
-
+import unitflex as uf
 from unitflex import press
 
 # Convert 2.65 atmospheres to pascals with raw output
@@ -25,3 +21,5 @@ print(gauge)
 # Convert psig to psia using custom atmPressure
 conv = press.convert(12, "psig", "psia", atmPressure=15.696)
 print(conv)
+
+print(f"\nUnitflex version: {uf.__version__}")

@@ -1,8 +1,4 @@
-import sys
-import os
-sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
-# -- IGNORE THAT --
-
+import unitflex as uf
 from unitflex import temper
 
 # Convert 100 Celsius to Fahrenheit, tag dan raw output
@@ -17,3 +13,5 @@ print(temper.convert(77, "f", "k", prec="3", format="verbose", delim="."))      
 # Engineering Mode - extremely high precision
 result = temper.convert(451, "fahrenheit", "k", prec="30", mode="engineering", format="verbose")
 print(result)
+
+print(f"\nUnitflex version: {uf.__version__}")

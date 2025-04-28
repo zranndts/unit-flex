@@ -1,8 +1,4 @@
-import sys
-import os
-sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
-# -- IGNORE THAT --
-
+import unitflex as uf
 from unitflex import speed
 
 # Convert 75 km/h to m/s with tag and raw output
@@ -17,3 +13,5 @@ print(speed.convert(1234567.89, "mm/min", "km/h", prec=3, format="verbose", deli
 # Engineering Mode - extremely high precision
 result = speed.convert(1.23456789, "mach", "m/s", prec=11, mode="engineering", format="verbose")
 print(result)
+
+print(f"\nUnitflex version: {uf.__version__}")

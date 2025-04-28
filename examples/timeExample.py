@@ -1,8 +1,4 @@
-import sys
-import os
-sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
-# -- IGNORE THAT --
-
+import unitflex as uf
 from unitflex import time
 
 # Convert 2.65 hours to seconds with raw output
@@ -23,3 +19,5 @@ print(time.flex(1.4234924, "year"))
 
 # combine convert and flex function
 print(time.flex(time.convert(2.231221321, "millenium", "century", mode="engineering", format="raw"), "century"))
+ 
+print(f"\nUnitflex version: {uf.__version__}")
