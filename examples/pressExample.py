@@ -1,5 +1,5 @@
 import unitflex as uf
-from unitflex import press
+from unitflex import pressure as press
 
 # Convert 2.65 atmospheres to pascals with raw output
 print(press.convert(2.65, "atm", "pa", prec=2, format="tag", delim="default")) # OR //

@@ -2,10 +2,10 @@ import unitflex as uf
 from unitflex import (
     length,
     mass,
-    temper,
+    temperature,
     data,
-    vol,
-    press,
+    volume,
+    pressure,
     speed,
     time
 )
@@ -19,7 +19,7 @@ print(mass.convert(2.5, "kg", "lb", format="tag", prec=3))
 # Output: 2.5_kg = 5.512_lb
 
 # Temperature conversion
-print(temper.convert(100, "C", "F", format="verbose", prec=1))  
+print(temperature.convert(100, "C", "F", format="verbose", prec=1))  
 # Output: 100 °C = 212.0 °F
 
 # Data conversion
@@ -27,11 +27,11 @@ print(data.convert(1024, "MiB", "GiB", format="raw", prec=2))
 # Output: 1.0GiB
 
 # Volume conversion
-print(vol.convert(3.785, "liter", "gallon", prec=4, format="verbose", delim=True))  
+print(volume.convert(3.785, "liter", "gallon", prec=4, format="verbose", delim=True))  
 # Output: 3.785 liter = 1.0 gallon
 
 # Pressure conversion
-print(press.convert(1, "atm", "Pa", format="verbose", prec=0, delim="."))  
+print(pressure.convert(1, "atm", "Pa", format="verbose", prec=0, delim="."))  
 # Output: 1 atm = 101.325.Pa
 
 # Speed conversion

@@ -1,5 +1,5 @@
 import unitflex as uf
-from unitflex import vol
+from unitflex import volume as vol
 
 # Convert 2.65 gallons to milliliters with tag output
 print(vol.convert(2.65, "gal", "ml", prec=2, format="tag", delim=True)) # OR //
