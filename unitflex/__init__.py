@@ -7,7 +7,7 @@ from .pressure import pressureConverter as pressure
 from .speed import speedConverter as speed
 from .time import timeConverter as time
 
-__version__ = "0.9.2"
+__version__ = "0.9.3"
 __author__ = "Zahraan Dzakii"
 __license__ = "MIT"
 __description__ = "An Accurate and Flexible Unit Converter Library."
