@@ -1,2 +1,5 @@
-DEBUG = False
-# still a basic config.py
+import os
+from dotenv import load_dotenv
+
+load_dotenv()
+DEBUG = os.getenv("DEBUG", "False") == "True"
