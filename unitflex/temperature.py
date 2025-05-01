@@ -3,28 +3,90 @@ from unitflex.utils import debugLog
 import warnings
 class temperatureConverter:
     conversionToCelsius = {
-        "c": lambda x: x, "celsius": lambda x: x, "celcius": lambda x: x, "°c": lambda x: x,
-        "f": lambda x: (x - 32) * 5 / 9, "fahrenheit": lambda x: (x - 32) * 5 / 9, "°f": lambda x: (x - 32) * 5 / 9,
-        "k": lambda x: x - 273.15, "kelvin": lambda x: x - 273.15, "°k": lambda x: x - 273.15,
-        "r": lambda x: (x - 491.67) * 5 / 9, "rankine": lambda x: (x - 491.67) * 5 / 9, "°r": lambda x: (x - 491.67) * 5 / 9,
-        "re": lambda x: x * 5 / 4, "reaumur": lambda x: x * 5 / 4, "réaumur": lambda x: x * 5 / 4, "°re": lambda x: x * 5 / 4, "°ré": lambda x: x * 5 / 4
+        # Celcius (Base Unit)
+        "c": lambda x: x, 
+        "celsius": lambda x: x, 
+        "celcius": lambda x: x, 
+        "°c": lambda x: x,
+
+        # Fahrenheit
+        "f": lambda x: (x - Decimal('32')) * Decimal('5') / Decimal('9'),
+        "fahrenheit": lambda x: (x - Decimal('32')) * Decimal('5') / Decimal('9'),
+        "°f": lambda x: (x - Decimal('32')) * Decimal('5') / Decimal('9'),
+
+        # Kelvin
+        "k": lambda x: x - Decimal('273.15'),
+        "kelvin": lambda x: x - Decimal('273.15'),
+        "°k": lambda x: x - Decimal('273.15'),
+
+        # Rankine
+        "r": lambda x: (x - Decimal('491.67')) * Decimal('5') / Decimal('9'),
+        "rankine": lambda x: (x - Decimal('491.67')) * Decimal('5') / Decimal('9'),
+        "°r": lambda x: (x - Decimal('491.67')) * Decimal('5') / Decimal('9'),
+
+        # Reaumur
+        "re": lambda x: x * Decimal('5') / Decimal('4'),
+        "reaumur": lambda x: x * Decimal('5') / Decimal('4'),
+        "réaumur": lambda x: x * Decimal('5') / Decimal('4'),
+        "°re": lambda x: x * Decimal('5') / Decimal('4'),
+        "°ré": lambda x: x * Decimal('5') / Decimal('4')
     }
 
     conversionFromCelsius = {
-        "c": lambda x: x, "celsius": lambda x: x, "celcius": lambda x: x, "°c": lambda x: x,
-        "f": lambda x: (x * 9 / 5) + 32, "fahrenheit": lambda x: (x * 9 / 5) + 32, "°f": lambda x: (x * 9 / 5) + 32,
-        "k": lambda x: x + 273.15, "kelvin": lambda x: x + 273.15, "°k": lambda x: x + 273.15,
-        "r": lambda x: (x + 273.15) * 9 / 5, "rankine": lambda x: (x + 273.15) * 9 / 5, "°r": lambda x: (x + 273.15) * 9 / 5,
-        "re": lambda x: x * 4 / 5, "reaumur": lambda x: x * 4 / 5, "réaumur": lambda x: x * 4 / 5, "°re": lambda x: x * 4 / 5, "°ré": lambda x: x * 4 / 5
+        # Celcius (Base Unit)
+        "c": lambda x: x, 
+        "celsius": lambda x: x, 
+        "celcius": lambda x: x, 
+        "°c": lambda x: x,
+
+        # Fahrenheit
+        "f": lambda x: (x * Decimal('9') / Decimal('5')) + Decimal('32'),
+        "fahrenheit": lambda x: (x * Decimal('9') / Decimal('5')) + Decimal('32'),
+        "°f": lambda x: (x * Decimal('9') / Decimal('5')) + Decimal('32'),
+
+        # Kelvin
+        "k": lambda x: x + Decimal('273.15'),
+        "kelvin": lambda x: x + Decimal('273.15'),
+        "°k": lambda x: x + Decimal('273.15'),
+
+        # Rankine
+        "r": lambda x: (x + Decimal('273.15')) * Decimal('9') / Decimal('5'),
+        "rankine": lambda x: (x + Decimal('273.15')) * Decimal('9') / Decimal('5'),
+        "°r": lambda x: (x + Decimal('273.15')) * Decimal('9') / Decimal('5'),
+
+        # Reaumur
+        "re": lambda x: x * Decimal('4') / Decimal('5'),
+        "reaumur": lambda x: x * Decimal('4') / Decimal('5'),
+        "réaumur": lambda x: x * Decimal('4') / Decimal('5'),
+        "°re": lambda x: x * Decimal('4') / Decimal('5'),
+        "°ré": lambda x: x * Decimal('4') / Decimal('5')
     }
 
     @classmethod
-    def convert(cls, value, fromUnit, toUnit, *, prec=None, format="tag", delim=False, mode="standard"):
+    def convert(cls, value, fromUnit, toUnit, *, precision=None, format="raw", delimiter=False, mode="standard", **kwargs):
+        aliasesMap = {
+        'precision': ['precision', 'prec', 'p'],
+        'format': ['format', 'fmt', 'f'],
+        'delimiter': ['delimiter', 'delim', 'de'],
+        'mode': ['mode', 'm']
+        }
+
+        def getParameter(default, parameterName):
+            aliases = aliasesMap.get(parameterName, [])
+            for alias in aliases:
+                if alias in kwargs:
+                    return kwargs[alias]
+            return default
+            
+        precision = getParameter(precision, 'precision')
+        format = getParameter(format, 'format')
+        delimiter = getParameter(delimiter, 'delimiter')
+        mode = getParameter(mode, 'mode')
+
         toUnit = toUnit.lower().strip()
         fromUnit = fromUnit.lower().strip()
-        fromUnit = fromUnit.lower()
-        toUnit = toUnit.lower()
-        mode = mode.lower()
+        format = format.lower().strip() if isinstance(format, str) else format
+        mode = mode.lower().strip() if isinstance(mode, str) else mode
         debugLog(f"[convert] Started 'Temperature' conversion: {value} {fromUnit} to {toUnit}")
 
         if fromUnit not in cls.conversionToCelsius:
@@ -34,27 +96,24 @@ class temperatureConverter:
             debugLog(f"[convert] Error: From unit '{fromUnit}' not recognized!")
             raise ValueError(f"To unit '{toUnit}' not recognized!")
 
-        if prec is None:
-            prec = 9 if mode == "engineering" else 2
-        elif int(prec) < 0:
-            raise ValueError("Precision can't be negative!")
+        precision = 9 if precision is None and mode in {"engineering", "eng", "e"} else 2 if precision is None else precision
+        if int(precision) < 0: raise ValueError("Precision can't be negative!")
         else:
             try:
-                prec = int(prec)
+                precision = int(precision)
             except (ValueError, TypeError):
                 raise ValueError("Precision must be a Number!")
 
-        if mode not in ("standard", "engineering"):
+        if mode not in {"standard", "engineering", "eng", "e"}:
             debugLog(f"[convert] Error: mode='{mode}' is not recognized!")
             raise ValueError("Mode must be either 'standard' or 'engineering'.")
-        debugLog(f"[convert] Parsed prec={prec}, mode={mode}")
+        debugLog(f"[convert] Parsed prec={precision}, mode={mode}")
 
-        if mode == "standard" and prec > 6:
-            warnings.warn("High precision requested in standard mode. Consider using engineering mode for better accuracy.")
+        if mode == "standard" and precision > 6: warnings.warn("High precision requested in standard mode. Consider using engineering mode for better accuracy.")
 
-        if mode == "engineering":
+        if mode in {"engineering", "eng", "e"}:
             debugLog(f"[convert] Engineering mode activated")
-            getcontext().prec = prec + 5
+            getcontext().prec = precision + 5
             getcontext().rounding = ROUND_HALF_UP
 
             try:
@@ -63,7 +122,7 @@ class temperatureConverter:
                 convertedValue = Decimal(str(cls.conversionFromCelsius[toUnit](celsiusValue)))
 
                 digits = convertedValue.adjusted() + 1
-                decimalPlaces = prec - digits
+                decimalPlaces = precision - digits
 
                 if decimalPlaces >= 0 and decimalPlaces <= 50:
                     try:
@@ -83,7 +142,7 @@ class temperatureConverter:
         else:
             celsiusValue = cls.conversionToCelsius[fromUnit](value)
             convertedValue = cls.conversionFromCelsius[toUnit](celsiusValue)
-            finalValue = round(convertedValue, prec)
+            finalValue = round(convertedValue, precision)
 
         if isinstance(finalValue, (float, Decimal)) and finalValue == int(finalValue):
             finalValue = int(finalValue)
@@ -92,16 +151,16 @@ class temperatureConverter:
             return finalValue
 
         separator = None
-        if delim:
-            if delim is True or str(delim).lower().strip() == "default":
+        if delimiter:
+            if delimiter is True or str(delimiter).lower().strip() == "default":
                 separator = ","
             else:
-                separator = str(delim)
+                separator = str(delimiter)
 
         if isinstance(finalValue, int):
             formattedValue = f"{finalValue:,}" if separator else str(finalValue)
         else:
-            formattedValue = f"{finalValue:,.{prec}f}" if separator else f"{finalValue:.{prec}f}"
+            formattedValue = f"{finalValue:,.{precision}f}" if separator else f"{finalValue:.{precision}f}"
 
         if separator:
             formattedValue = formattedValue.replace(",", separator)

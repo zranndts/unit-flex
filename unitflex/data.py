@@ -112,9 +112,29 @@ class dataConverter:
     }
 
     @classmethod
-    def convert(cls, value, fromUnit, toUnit, *, prec=None, format="tag", delim=False, mode="standard"):
-        format = format.lower().strip()
-        mode = mode.lower().strip()
+    def convert(cls, value, fromUnit, toUnit, *, precision=None, format="raw", delimiter=False, mode="standard", **kwargs):
+        aliasesMap = {
+        'precision': ['precision', 'prec', 'p'],
+        'format': ['format', 'fmt', 'f'],
+        'delimiter': ['delimiter', 'delim', 'de'],
+        'mode': ['mode', 'm']
+        }
+
+        def getParameter(default, parameterName):
+            aliases = aliasesMap.get(parameterName, [])
+            for alias in aliases:
+                if alias in kwargs:
+                    return kwargs[alias]
+            return default
+            
+        precision = getParameter(precision, 'precision')
+        format = getParameter(format, 'format')
+        delimiter = getParameter(delimiter, 'delimiter')
+        mode = getParameter(mode, 'mode')
+
+        format = format.lower().strip() if isinstance(format, str) else format
+        mode = mode.lower().strip() if isinstance(mode, str) else mode
+
         debugLog(f"[convert] Started 'Data' conversion: {value} {fromUnit} to {toUnit}")
 
         if value < 0:
@@ -131,25 +151,25 @@ class dataConverter:
             debugLog(f"[convert] Error: From unit '{toUnit}' not recognized!")
             raise ValueError(f"To unit '{toUnit}' not recognized!")
 
-        if prec is None: prec = 9 if mode == "engineering" else 2
-        elif int(prec) < 0: raise ValueError("Precision can't be negative!")
+        precision = 9 if precision is None and mode in {"engineering", "eng", "e"} else 2 if precision is None else precision
+        if int(precision) < 0: raise ValueError("Precision can't be negative!")
         else:
             try:
-                prec = int(prec)
+                precision = int(precision)
             except (ValueError, TypeError):
                 raise ValueError("Precision must be a Number!")
 
-        if mode not in ("standard", "engineering"):
+        if mode not in {"standard", "engineering", "eng", "e"}:
             debugLog(f"[convert] Error: mode='{mode}' is not recognized!")
             raise ValueError("Mode must be either 'standard' or 'engineering'.")
-        debugLog(f"[convert] Parsed prec={prec}, mode={mode}")
+        debugLog(f"[convert] Parsed prec={precision}, mode={mode}")
 
-        if mode == "standard" and prec > 6:
+        if mode == "standard" and precision > 6:
             warnings.warn("High precision requested in standard mode. Consider using engineering mode for better accuracy.")
 
-        if mode == "engineering":
+        if mode in {"engineering", "eng", "e"}:
             debugLog(f"[convert] Engineering mode activated")
-            getcontext().prec = prec + 5
+            getcontext().prec = precision + 5
             getcontext().rounding = ROUND_HALF_UP
 
             try:
@@ -163,7 +183,7 @@ class dataConverter:
                 debugLog(f"[convert] Engineering mode: raw result={convertedValue}")
 
                 digits = convertedValue.adjusted() + 1
-                decimalPlaces = prec - digits
+                decimalPlaces = precision - digits
 
                 if decimalPlaces >= 0 and decimalPlaces <= 50:
                     try:
@@ -185,7 +205,7 @@ class dataConverter:
         else:
             defaultValue = float(value) * float(cls.conversionRates[fromUnit])
             convertedValue = defaultValue / float(cls.conversionRates[toUnit])
-            finalValue = round(convertedValue, prec)
+            finalValue = round(convertedValue, precision)
             debugLog(f"[convert] Standard mode: result={finalValue}")
 
         if isinstance(finalValue, (float, Decimal)) and finalValue == int(finalValue):
@@ -196,16 +216,16 @@ class dataConverter:
             return finalValue
 
         separator = None
-        if delim:
-            if delim is True or str(delim).lower().strip() == "default":
+        if delimiter:
+            if delimiter is True or str(delimiter).lower().strip() == "default":
                 separator = ","
             else:
-                separator = str(delim)
+                separator = str(delimiter)
 
         if isinstance(finalValue, int):
             formattedValue = f"{finalValue:,}" if separator else str(finalValue)
         else:
-            formattedValue = f"{finalValue:,.{prec}f}" if separator else f"{finalValue:.{prec}f}"
+            formattedValue = f"{finalValue:,.{precision}f}" if separator else f"{finalValue:.{precision}f}"
 
         if separator:
             formattedValue = formattedValue.replace(",", separator)
