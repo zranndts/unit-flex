@@ -6,6 +6,8 @@ It provides a **clean, extensible**, and **user-friendly** interface to perform 
 Designed to be both **beginner-friendly** and **robust enough for engineers**, Unitflex is suitable for daily tasks, education, and advanced scientific projects.  
 It even supports a special `"engineering"` mode for precise calculations using `Decimal`.
 
+` repo: https://github.com/zranndts/unit-flex `
+
 ---
 
 # Supported Converters 🧪 
@@ -31,7 +33,7 @@ Unitflex includes a powerful mass converter that supports a broad spectrum of ma
 - **Atomic / Microscopic Units**<br>Extremely small mass units used in particle physics and chemistry:<br>` atomic mass unit (amu / Da / u) `,` planck mass `
 - **Obsolete / Regional Units**<br>Historical or region-specific mass units no longer in widespread use:<br>` bale (cotton/wool/UK/AUS) `,` mark (Germany/Norway) `,` arroba (Spain/Portugal) `
 
-**3. Temperature (temper) 🌡️**<br>
+**3. Temperature 🌡️**<br>
 Unitflex includes a temperature converter that handles all major temperature scales with high accuracy, including both common and scientific units.
 **Supported Units:**
 - **Celsius (°C)**
@@ -52,7 +54,7 @@ Unitflex includes a robust data converter that supports a comprehensive range of
 > - Lowercase b stands for bit (e.g., Mb, Gb)
 > - Uppercase B stands for byte (e.g., MB, GB)<br>Mixing cases (e.g., Gb vs GB) will yield very different results.
 
-**5. Volume (vol) 💧**<br>
+**5. Volume 💧**<br>
 UnitFlex handles volume conversions across a wide spectrum, from tiny microliters to industrial oil barrels and large cubic yards. This module is ideal for scientific labs, culinary recipes, fluid mechanics, and everyday applications.
 **Supported Units:**
 - **Metric Units (SI)**<br>Standard international units for liquid and volumetric measurement, from nano- to kilometric scale:<br>` nanoliter (nl) `,` microliter (µl / μl) `,` milliliter (ml) `,` centiliter (cl) `,` deciliter (dl) `,` liter (l) `,` dekaliter (dal) `,` hectoliter (hl) `,` cubic millimeter (mm³) `,` cubic centimeter (cm³) `,` cubic decimeter (dm³) `,` cubic meter (m³) `,` cubic kilometer (km³) `
@@ -60,7 +62,7 @@ UnitFlex handles volume conversions across a wide spectrum, from tiny microliter
 - **UK Imperial Units**<br>Traditional British measurements, mainly used for larger volumes:<br>` imperial gallon (uk gal / uk-gal / gal-uk) `
 - **Specialized Units**<br>Used in specific industries like oil and gas:<br>` barrel (bbl) `
 
-**6. Pressure (press) 🧯**<br>
+**6. Pressure🧯**<br>
 Unitflex supports comprehensive and precise pressure conversions across a wide range of scientific, engineering, meteorological, and industrial units. This module also features support for absolute vs gauge pressure calculations through the ` atmPressure ` parameter, enabling engineering-grade accuracy for systems that require contextual atmospheric pressure input (e.g., ` psia ` vs ` psig `)
 **Supported Unit Categories:**
 - **Metric Units (SI)**<br>Standard pascal-based units:<br>` pascal (Pa) `,` kilopascal (kPa) `,` megapascal (MPa) `,` gigapascal (GPa) `,` hectopascal (hPa) `
@@ -75,7 +77,7 @@ Unitflex supports comprehensive and precise pressure conversions across a wide r
 **Special Feature: psia / psig Conversion:**
 This module includes support for converting between ` psia ` (pounds per square inch absolute) and ` psig ` (gauge), using the ` atmPressure ` parameter to specify the local atmospheric pressure.
 ``` python
-from unitflex import press
+from unitflex import pressure as press
 
 # Convert 24 psig to psia with default atmospheric pressure (14.696 psi)
 result = press.convert(24, "psig", "psia", prec=2, format="verbose", atmPressure=14.696)
@@ -116,9 +118,23 @@ print(time.flex(123456789, "second"))
 print(time.flex(500, "day"))
 # Output: "1 year 4 months 1 week 5 days"
 
-# Works directly with converted values
-print(time.flex((time.convert(1.21231, "century", "day", format="raw")), "day"))
-# Output: "1 century 21 years 2 months 3 weeks 2 days 11 hours 52 minutes 48 seconds"
+# Custumize Range (optional)
+print(time.flex(1.7832, "year", flexRange=("hour", "second")))
+# Output: 15,631 hours 31 minutes 52 seconds
+
+# Turning off delimiter by set delim to False (optional)
+print(time.flex(1.7832, "year", flexRange=("hour", "second"), delim=False))
+# Output: 15631 hours 31 minutes 52 seconds
+
+# Works directly with convert function
+print(time.flex(
+    (time.convert(1.21231, "century", "day", mode="eng")), "day",
+    flexRange=("month", "hour"),
+    delim = False
+    ))
+# Output: 1454 months 3 weeks 2 days 11 hours
+
+
 ```
 The ` flex() ` function is currently implemented for time, but the mechanism is designed to be extended to other domains (e.g., length, weight and data) that may benefit from breakdown representation.
 
@@ -138,14 +154,37 @@ Each convert() function accepts up to six parameters. The first three are requir
 
 - **prec (optional, default = 2 in standard mode and default = 9 in engineering mode)**<br>Number of decimal digits in the result<br>` Example: precision=3 → 12.345 `
 
-- **format (optional, default = "tag")**<br> Output style:<br>` "raw" → numeric only (ideal for calculations) `<br>` "tag" → number + unit `<br>` verbose" → full expression (e.g. "1 meter = 100 cm")`
+- **format/fmt/f (optional, default = "raw")**<br> Output style:<br>` "raw" → numeric only (ideal for calculations) `<br>` "tag" → number + unit `<br>` verbose" → full expression (e.g. "1 meter = 100 cm")`
 
-- **delim (optional)**<br> Adds a separator:<br>` default" or True → comma: 1,000,000 `<br>` "." → custom separator: 1.000.000 `<br>` False → no separator `
+- **delimiter/delim/de (optional)**<br> Adds a separator:<br>` "default" or True → comma: 1,000,000 `<br>` "." → custom separator: 1.000.000 `<br>` False → no separator `
 > ⚠️ **Note on delim and format="raw**<br>
 >  When using format="raw", the output is intended for further calculations. Therefore, even if delim is set to "default" or any custom separator, no separators will be applied! the result will be returned as a clean float, int, or Decimal without formatting.
 
 - **mode (optional, default = "standard")**<br>` "standard" → default mode `<br>` "engineering" → high-precision mode using decimal.Decimal `
 
+**Convert Function Examples**
+``` python
+from unitflex import length as ln
+# Basic Conversion
+a = ln.convert(159, "cm", "ft")
+# Output: 5.22
+
+# Conversion Using Optional Paramter: (precision/prec/p)
+b = ln.convert(1, "km", "miles", prec=5)
+# Output: 0.62137
+
+# Conversion Using Optional Parameter: (format/fmt/f)
+c = ln.convert(1, "km", "miles", prec=5, fmt="raw")
+
+# Conversion Using Optional Parameter: (delimiter/delim/de)
+d = ln.convert(59800.6850, "km", "miles", prec=6, fmt="verbose", delim=True)
+# Output: 59800.685 km = 37,158.422935 miles
+
+# Conversion Using Optional Parameter: (mode/m) -> [mode="engineering"/"eng"/"e"]
+e = ln.convert(1, "lightyear", "km", mode="eng", prec=12, fmt="verbose", delim=True)
+# Output: 1 lightyear = 9,460,730,472,580.8000000000 km
+
+```
 ---
 
 # Notes 📌
@@ -162,7 +201,7 @@ Each convert() function accepts up to six parameters. The first three are requir
 > ⚠️ **Note on Engineering Mode Output:**
 > When using `mode="engineering"`, the result is returned as a high-precision `Decimal` object to ensure maximum accuracy.<br>Please note that `Decimal` values cannot be directly operated with `float` or `int` types in Python.
 
-If you need to perform mathematical operations with the result, consider casting it manually:
+If you need to perform mathematical operations with the engineering mode result, consider casting it manually:
 ```python
 float_result = float(result)
 ```
