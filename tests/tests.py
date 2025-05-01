@@ -2,10 +2,10 @@ from unitflex import (
     volume as vol,
     pressure as press,
     temperature as temp, 
-    length,
+    length as len,
+    speed as spd,
     mass,
-    data, 
-    speed, 
+    data,  
     time
 )
 import unitflex as uf
@@ -15,55 +15,56 @@ print("\n------ Length\n")
 # Length Test
 
 # Use precision, adjust format and delim (delimeter), and engineering mode
-print(length.convert(12, fromUnit="miles", toUnit="cm", prec=2, format="verbose", delim="default"))
-print(length.convert(12, "miles", "cm", prec=2, format="verbose", delim="default"))
-print(length.convert(10, "miles", "cm", prec=2, format="tag", delim=","))
-print(length.convert(10, "miles", "cm", prec=2, format="tag", delim="."))
-print(length.convert(10, "miles", "cm", prec=2, format="tag", delim="-"))
+print(len.convert(12, fromUnit="miles", toUnit="cm", prec=2, format="verbose", delim="default"))
+print(len.convert(12, "miles", "cm", prec=2, format="verbose", delim="default"))
+print(len.convert(10, "miles", "cm", prec=2, format="tag", delim=","))
+print(len.convert(10, "miles", "cm", prec=2, format="tag", delim="."))
+print(len.convert(10, "miles", "cm", prec=2, format="tag", delim="-"))
 
 print("\n-- Extreme Length Converter Test --\n")
-print(length.convert(1, "lightyear", "femtometer", prec=0, mode="engineering", delim="default")) # Extreme conv test 1
-print(length.convert(1, "femtometer", "parsec", prec=32, mode="engineering")) # Extreme conv test 2
-print(length.convert(1, "mile", "picometer", prec=2, mode="engineering", delim="default")) # Extreme conv test 3
-print(length.convert(1, "point", "lightyear", prec=20, mode="engineering")) # Extreme conv test 4
-print(length.convert(1, "nauticalmile", "nm", prec=0, mode="engineering", delim="default")) # Extreme conv test 5
-print(length.convert(1, "lightyear", "km", prec=13, mode="engineering", delim="default", format="verbose")) # Extreme conv test 6
-print(length.convert(1, "km", "lightyears", prec=50, mode="engineering")) # Extreme conv test 7
+print(len.convert(1, "lightyear", "femtometer", prec=0, mode="engineering", delim="default")) # Extreme conv test 1
+print(len.convert(1, "femtometer", "parsec", prec=32, mode="engineering")) # Extreme conv test 2
+print(len.convert(1, "mile", "picometer", prec=2, mode="engineering", delim="default")) # Extreme conv test 3
+print(len.convert(1, "point", "lightyear", prec=20, mode="engineering")) # Extreme conv test 4
+print(len.convert(1, "nauticalmile", "nm", prec=0, mode="engineering", delim="default")) # Extreme conv test 5
+print(len.convert(1, "lightyear", "km", prec=13, mode="engineering", delim="default", format="verbose")) # Extreme conv test 6
+print(len.convert(1, "km", "lightyears", prec=50, mode="engineering")) # Extreme conv test 7
 print("----")
 
-num1 = length.convert(1.23456789, "miles", "km", prec=12,format="raw", delim="_", mode="engineering")
-num2 = length.convert(9.87654321, "miles", "km", prec=12,format="raw", delim="_", mode="engineering")
+num1 = len.convert(1.23456789, "miles", "km", prec=12,format="raw", delim="_", mode="engineering")
+num2 = len.convert(9.87654321, "miles", "km", prec=12,format="raw", delim="_", mode="engineering")
 print(f"{num1 + num2} km")
 
 # Round result 
-print(length.convert(1.609, fromUnit="km", toUnit="miles", prec=2, format="tag", delim=","))
-print(length.convert(1.609, "km", "miles", prec=2, format="tag", delim=True))
+print(len.convert(1.609, fromUnit="km", toUnit="miles", prec=2, format="tag", delim=","))
+print(len.convert(1.609, "km", "miles", prec=2, format="tag", delim=True))
 
 # Decimal or Float Result
-print(length.convert(100, "yard", "cm", prec=2, format="tag", delim="."))
+print(len.convert(100, "yard", "cm", prec=2, format="tag", delim="."))
 
 # Use prec, and format adjust 
-print(length.convert(5, fromUnit="mi", toUnit="km", prec=1, format="verbose"))   
-print(length.convert(160, "cm", "ft", prec=4, format="tag"))
-print(length.convert(180, "cm", "ft", prec=1, format="tag"))
-print(length.convert(158, "cm", "ft", prec=2, format="tag"))
-num1 = length.convert(180, "cm", "ft", prec=2, format="raw")
-num2 = length.convert(158, "cm", "ft", prec=2, format="raw")
+print(len.convert(5, fromUnit="mi", toUnit="km", prec=1, format="verbose"))   
+print(len.convert(160, "cm", "ft", prec=4, format="tag"))
+print(len.convert(180, "cm", "ft", prec=1, format="tag"))
+print(len.convert(158, "cm", "ft", prec=2, format="tag"))
+num1 = len.convert(180, "cm", "ft", prec=2, format="raw")
+num2 = len.convert(158, "cm", "ft", prec=2, format="raw")
 result = num1 - num2
 print(f"Our height difference is {round(result, 2)} ft")
 
 # Use prec only
-print(length.convert(150, fromUnit="ft", toUnit="cm", prec=2))
-print(length.convert(150, fromUnit="ft", toUnit="cm", prec=2))
+print(len.convert(150, fromUnit="ft", toUnit="cm", prec=2))
+print(len.convert(150, fromUnit="ft", toUnit="cm", prec=2))
 
 # Just convert without any output adjustment
-print(length.convert(175, fromUnit="cm", toUnit="ft"))
+print(len.convert(175, fromUnit="cm", toUnit="ft"))
 
 # Simple usage
-print(length.convert(1, "cm", "nm", prec=1, format="tag", delim=","))
-print(length.convert(1, "cm", "nm", prec=1, format="tag", delim=","))
-print(length.convert(5.9, "ft", "cm", prec=2, format="verbose"))
-print(length.convert(12, "nm", "um"))
+print(len.convert(1, "cm", "nm", prec=1, format="tag", delim=","))
+print(len.convert(1, "cm", "nm", prec=1, format="tag", delim=","))
+print(len.convert(5.9, "ft", "cm", prec=2, format="verbose"))
+print(len.convert(12, "nm", "um"))
+print(len.convert(59123, "km", "lightyear", mode="eng", prec=12, fmt="verbose"))
 
 print("\n------ Mass\n")
 
@@ -115,6 +116,7 @@ print(data.convert(150, fromUnit="mbps", toUnit="gbps", format="raw"))
 gb2 = data.convert(150, fromUnit="mbps", toUnit="gbps", format="raw")
 print(gb1 + gb2)
 print(data.convert(1, "gbps", "mbps", prec=2, format="tag", delim=","))
+print(data.convert(1, "gbps", "mbps", prec=2, fmt="tag", de=",", mode="eng"))
 
 print("\n------ Volume\n")
 # Volune Test
@@ -156,25 +158,26 @@ print(press.convert(1013.25, "mbar", "bar", prec=2))
 print("\n------ Speed\n")
 
 # Speed Test
-print(speed.convert(120, fromUnit="km/h", toUnit="m/s", prec=2, format="tag"))
-print(speed.convert(100, fromUnit="km per hour", toUnit="meter per second", prec=4, format="verbose", delim=","))
-print(speed.convert(60, fromUnit="mph", toUnit="fps", prec=3, format="verbose"))
-print(speed.convert(30, fromUnit="kt", toUnit="km/h", prec=2, format="verbose"))
-print(speed.convert(20, fromUnit="knot", toUnit="m/s", prec=4, format="tag"))
-print(speed.convert(1, "mach", "km/h", prec=2, format="verbose"))
-print(speed.convert(343, "m/s", "mach", prec=4, format="verbose"))
-print(speed.convert(10, "km/h", "mph", prec=4, format="raw")) 
-print(speed.convert(10000, "cm/s", "km/h", prec=5, format="raw", delim=","))
-print(speed.convert(999_999, "mm/s", "m/s", prec=1, format="tag"))
-raw_speed = speed.convert(100, "km/h", "m/s", prec=10, format="raw", delim="default", mode="engineering")
-raw_speed2 = speed.convert(36, "km/h", "m/s", prec=10, format="raw", delim="default", mode="engineering")
+print(spd.convert(120, fromUnit="km/h", toUnit="m/s", prec=2, format="tag"))
+print(spd.convert(100, fromUnit="km per hour", toUnit="meter per second", prec=4, format="verbose", delim=","))
+print(spd.convert(60, fromUnit="mph", toUnit="fps", prec=3, format="verbose"))
+print(spd.convert(30, fromUnit="kt", toUnit="km/h", prec=2, format="verbose"))
+print(spd.convert(20, fromUnit="knot", toUnit="m/s", prec=4, format="tag"))
+print(spd.convert(1, "mach", "km/h", prec=2, format="verbose"))
+print(spd.convert(343, "m/s", "mach", prec=4, format="verbose"))
+print(spd.convert(10, "km/h", "mph", prec=4, format="raw")) 
+print(spd.convert(10000, "cm/s", "km/h", prec=5, format="raw", delim=","))
+print(spd.convert(999_999, "mm/s", "m/s", prec=1, format="tag"))
+raw_speed = spd.convert(100, "km/h", "m/s", prec=10, format="raw", delim="default", mode="engineering")
+raw_speed2 = spd.convert(36, "km/h", "m/s", prec=10, format="raw", delim="default", mode="engineering")
 print(f"{raw_speed} m/s + {raw_speed2} m/s = {raw_speed + raw_speed2} m/s")
-print(speed.convert(100, "mph", "km/h", prec=2, format="verbose", delim=True))
-print(speed.convert(88, "ft/s", "km/h", prec=4, format="tag"))
-print(speed.convert(5, "m/s", "cm/s", prec=0, format="tag"))
-print(speed.convert(60, "km/h", "ft/s", prec=2, format="verbose"))
-print(speed.convert(1, "c", "mach", prec=6, format="verbose", delim=","))
-print(speed.convert(1, "speed of light", "km/h", prec=1, format="verbose", delim=","))
+print(spd.convert(100, "mph", "km/h", prec=2, format="verbose", delim=True))
+print(spd.convert(88, "ft/s", "km/h", prec=4, format="tag"))
+print(spd.convert(5, "m/s", "cm/s", prec=0, format="tag"))
+print(spd.convert(60, "km/h", "ft/s", prec=2, format="verbose"))
+print(spd.convert(1, "c", "mach", prec=6, format="verbose", delim=","))
+print(spd.convert(1, "speed of light", "km/h", prec=1, format="verbose", delim=","))
+print(spd.convert(21231, "km/h", "mach", mode="engineering", fmt="verbose"))
 
 print("\n------ Time")
 
@@ -205,6 +208,16 @@ print(time.flex(1.521, "century"))
 print(time.flex(1000, "day"))
 print(time.flex(13.7516, "hour")) 
 print(time.flex((time.convert(1.21231, "century", "day", format="raw")), "day"))
+print(time.flex(1.532, "century", flexRange=("hour", "second")))
+print(time.flex(1.532, "century", flexRange=("hour", "second"), delim=False))
+print(time.flex(1.7832, "year", flexRange=("hour", "second")))
+# Flex + Convert Function
+from unitflex import time
+print(time.flex(
+    (time.convert(1.21231, "century", "day", mode="eng")),"day",
+    flexRange=("month", "hour"),
+    delim = False
+    ))
 
 print(uf.__version__)
 print(uf.__author__)
