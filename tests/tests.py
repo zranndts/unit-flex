@@ -1,3 +1,7 @@
+import time as t
+from unitflex import config
+config.DEBUG = False
+start = t.time()
 from unitflex import (
     volume as vol,
     pressure as press,
@@ -212,7 +216,6 @@ print(time.flex(1.532, "century", flexRange=("hour", "second")))
 print(time.flex(1.532, "century", flexRange=("hour", "second"), delim=False))
 print(time.flex(1.7832, "year", flexRange=("hour", "second")))
 # Flex + Convert Function
-from unitflex import time
 print(time.flex(
     (time.convert(1.21231, "century", "day", mode="eng")),"day",
     flexRange=("month", "hour"),
@@ -224,3 +227,9 @@ print(uf.__author__)
 print(uf.__repository__)
 print(uf.__license__)
 print(uf.__doc__)
+
+end = t.time()
+execution_time = end - start
+execution_time_ms = execution_time * 1000
+print(f"Execution Time: {execution_time_ms:.3f} ms")
+print(f"Execution Time: {execution_time:.6f} s")
