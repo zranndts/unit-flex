@@ -152,7 +152,7 @@ Each convert() function accepts up to six parameters. The first three are requir
 
 - **toUnit (required)**<br>The target unit (same format options as fromUnit)<br>` Example: km, yard, kelvin `
 
-- **prec (optional, default = 2 in standard mode and default = 9 in engineering mode)**<br>Number of decimal digits in the result<br>` Example: precision=3 → 12.345 `
+- **precision/prec/p (optional, default = 2 in standard mode and default = 9 in engineering mode)**<br>Number of decimal digits in the result<br>` Example: precision=3 → 12.345 `
 
 - **format/fmt/f (optional, default = "raw")**<br> Output style:<br>` "raw" → numeric only (ideal for calculations) `<br>` "tag" → number + unit `<br>` verbose" → full expression (e.g. "1 meter = 100 cm")`
 
