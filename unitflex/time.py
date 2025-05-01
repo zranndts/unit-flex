@@ -171,7 +171,7 @@ class timeConverter:
     def flex(cls, value, fromUnit, *, flexRange=(None, None), delim=True):
         getcontext().prec = 10
 
-        if value < 0:raise ValueError("'Time` value cant't be negative!")
+        if value < 0:raise ValueError("'Time` value can't be negative!")
         elif value == 0:raise ValueError("'Time` value can't be zero!")
         
         validUnitsOrdered = [

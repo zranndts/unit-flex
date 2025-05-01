@@ -12,7 +12,7 @@ class volumeConverter:
     "dal": "1e-2", "dekaliter": "1e-2", "dekaliters": "1e-2",
     "l": "1e-3", "liter": "1e-3", "liters": "1e-3",
     "hl": "0.1", "hectoliter": "0.1", "hectoliters": "0.1",
-    "m3": "1", "m³": "1", "cubic meter": "1", "cubic meters": "1",
+    "m3": "1", "m³": "1", "cubicmeter": "1", "cubic meters": "1", "cubic meter": "1", "cubicmeters": "1",
     "cm3": "1e-6", "cm³": "1e-6", "cubic centimeter": "1e-6", "cubic centimeters": "1e-6", "cubic centimetre": "1e-6",
     "dm3": "1e-3", "dm³": "1e-3", "cubic decimeter": "1e-3", "cubic decimeters": "1e-3",
     "mm3": "1e-9", "mm³": "1e-9", "cubic millimeter": "1e-9", "cubic millimeters": "1e-9",
