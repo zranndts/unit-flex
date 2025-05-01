@@ -1,9 +1,38 @@
+# Bytecode Python
 __pycache__/
 *.pyc
 *.pyo
-*.egg-info/
+
+# Distribution / Build folder
 dist/
 build/
+*.egg-info/
+
+# Virtual environments
 .env/
+.venv/
+venv/
+env/
+
+# IDE & Editor config files
 .idea/
 .vscode/
+
+# Jupyter Notebook checkpoints
+.ipynb_checkpoints/
+
+# Windows files
+Thumbs.db
+Desktop.ini
+
+# Python environment
+*.env
+*.venv
+
+# UnitFlex generated files
+unitflex/__pycache__/
+
+# Temporary files
+*.log
+*.bak
+*.swp
