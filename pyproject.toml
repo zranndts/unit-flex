@@ -1,3 +1,26 @@
 [build-system]
-requires = ["setuptools", "wheel"]
-build-backend = "setuptools.build_meta" 
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "unitflex"
+version = "0.9.2"
+description = "An Accurate and Flexible Unit Converter Library."
+readme = "README.md"
+requires-python = ">=3.7"
+license = {text = "MIT"}
+authors = [
+  { name = "Zahraan Dzakii Tsaqiif", email = "vleaxorzz@gmail.com" }
+]
+keywords = ["unit conversion", "conversion", "python library"]
+classifiers = [
+  "Programming Language :: Python :: 3",
+  "License :: OSI Approved :: MIT License",
+  "Operating System :: OS Independent"
+]
+
+[project.urls]
+"Homepage" = "https://github.com/zranndts/unit-flex"
+"Documentation" = "https://github.com/zranndts/unit-flex#readme"
+"Source" = "https://github.com/zranndts/unit-flex"
+"Issues" = "https://github.com/zranndts/unit-flex/issues"
