@@ -1,4 +1,4 @@
 from unitflex import config
-def debugLog(message):
+def debug_log(message):
     if config.DEBUG == True:
         print(f"[DEBUG] {message}")
