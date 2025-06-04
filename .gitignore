@@ -36,3 +36,6 @@ unitflex/__pycache__/
 *.log
 *.bak
 *.swp
+
+# Testing
+tests/tests.py
