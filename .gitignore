@@ -38,4 +38,4 @@ unitflex/__pycache__/
 *.swp
 
 # Testing
-tests/tests.py
+unitflex/tests/tests.py
